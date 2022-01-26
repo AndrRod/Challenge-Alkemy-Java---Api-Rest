@@ -1,5 +1,6 @@
 package com.Alkemy.Challenge.Java.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,9 +37,21 @@ public class Personaje {
     private String historia;
 
     //asociar de muchos a muchos con pelicula
-    @Getter @Setter
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Pelicula> peliculas = new ArrayList<>();
+//    @Getter @Setter
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    private Collection<Pelicula> peliculas = new ArrayList<>();
+
+
+//    @Getter @Setter
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "pelicula_id")
+//    private Collection<Pelicula> peliculas = new ArrayList<>();
+//
+//    @Getter @Setter
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//    @JoinColumn(name = "pelicula_id")
+//    private Pelicula peliculas;
 
 
 }

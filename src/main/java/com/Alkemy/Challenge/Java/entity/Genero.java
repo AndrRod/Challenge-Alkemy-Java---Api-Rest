@@ -24,6 +24,7 @@ public class Genero {
 //    @Getter @Setter
 //    private String peliculas;
 
+
     public Genero(String imagen, String nombre){
         this.imagen = imagen;
         this.nombre = nombre;

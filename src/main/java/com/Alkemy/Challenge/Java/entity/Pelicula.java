@@ -2,6 +2,7 @@ package com.Alkemy.Challenge.Java.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,10 +44,16 @@ public class Pelicula {
     private int calificacion;
 
     //relacion de muchos a muchos con personajes
+    @Getter @Setter
+    @JoinColumn(name = "id")
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Collection<Personaje> personajesAsociados = new ArrayList<>();
+
 //    @Getter @Setter
-//    @JoinColumn(name = "personaje_nombre")
-//    @ManyToMany(fetch = FetchType.EAGER)
-//    private Collection<Personaje> personajesAsociados = new ArrayList<>();
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//    @JoinColumn(name = "personaje_id")
+//    private Personaje personajeAsociados;
 
     @Getter @Setter
 //    @JoinColumn(name = "genero_id")
