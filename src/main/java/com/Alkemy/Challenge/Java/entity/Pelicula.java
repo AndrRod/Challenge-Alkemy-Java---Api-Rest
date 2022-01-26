@@ -2,7 +2,9 @@ package com.Alkemy.Challenge.Java.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,13 +12,15 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity
-@Table(name = "pelicula")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Pelicula {
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
@@ -26,6 +30,7 @@ public class Pelicula {
     private String imagen;
 
     @Getter @Setter
+    @Column(nullable = false)
     private String titulo;
 
     @CreationTimestamp
@@ -38,15 +43,15 @@ public class Pelicula {
     private int calificacion;
 
     //relacion de muchos a muchos con personajes
-    @Getter @Setter
-    private String personajesAsociados;
+//    @Getter @Setter
+//    @JoinColumn(name = "personaje_nombre")
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    private Collection<Personaje> personajesAsociados = new ArrayList<>();
 
-    public Pelicula(String imagen, int calificacion, String personajesAsociados, String titulo){
-        this.imagen = imagen;
-        this.calificacion = calificacion;
-        this.personajesAsociados = personajesAsociados;
-        this.titulo = titulo;
-    }
-    public Pelicula() {
-    }
+    @Getter @Setter
+//    @JoinColumn(name = "genero_id")
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Genero> generos = new ArrayList<>();
+
+
 }

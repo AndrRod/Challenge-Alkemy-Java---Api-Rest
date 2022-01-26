@@ -1,15 +1,21 @@
 package com.Alkemy.Challenge.Java.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
-@Table(name = "personaje")
+@NoArgsConstructor
+@AllArgsConstructor
+@Table
 public class Personaje {
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter @Setter
     private Long id;
@@ -29,18 +35,10 @@ public class Personaje {
     @Getter @Setter
     private String historia;
 
-    //asociar con otra tabla
+    //asociar de muchos a muchos con pelicula
     @Getter @Setter
-    private String peliculas;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Pelicula> peliculas = new ArrayList<>();
 
-    public Personaje(String imagen, String nombre, float peso, int edad, String historia, String peliculas){
-        this.imagen = imagen;
-        this.nombre = nombre;
-        this.peso = peso;
-        this.edad = edad;
-        this.historia = historia;
-        this.peliculas = peliculas;
-    }
-    public Personaje() {
-    }
+
 }

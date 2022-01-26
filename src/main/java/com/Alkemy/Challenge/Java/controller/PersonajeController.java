@@ -36,7 +36,7 @@ public class PersonajeController {
             personajeService.crearPersonaje(personaje);
             return ResponseEntity.status(HttpStatus.CREATED).body(personaje);
         }catch(Exception e){
-            return new ResponseEntity<>("Hubo un error al crear el usuario", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Hubo un error al crear el personaje", HttpStatus.BAD_REQUEST);
         }
     }
     @DeleteMapping(value= "/borrarPersonaje/{id}")
@@ -54,7 +54,7 @@ public class PersonajeController {
          personaje.get().setEdad(personajeModif.getEdad());
         personaje.get().setHistoria(personajeModif.getHistoria());
         personaje.get().setImagen(personajeModif.getImagen());
-        personaje.get().setPeliculas(personajeModif.getPeliculas());
+//        personaje.get().setPeliculas(personajeModif.getPeliculas());
         personaje.get().setNombre(personajeModif.getNombre());
     try{
         personajeService.crearPersonaje(personaje.get());
@@ -64,13 +64,13 @@ public class PersonajeController {
         }
     }
     @GetMapping(value = "/detallePersonaje/{id}")
-    ResponseEntity<?> detallesPersonajeId(@PathVariable (value = "id") @Valid Long idPersonaje){
+    public ResponseEntity<?> detallesPersonajeId(@PathVariable (value = "id") @Valid Long idPersonaje){
         Optional<Personaje> personaje = personajeService.buscarPersonajePorId(idPersonaje);
         if(personaje.isEmpty()){return new ResponseEntity<>("No se encuentra ningún personaje con el id: " + idPersonaje, HttpStatus.NOT_FOUND);}
         return ResponseEntity.ok(personaje);
     }
     @GetMapping(value = "/characters")
-    ResponseEntity<?> buscarPorNombre(@RequestParam(value = "name", required = false) String nombre,
+    public ResponseEntity<?> buscarPorNombre(@RequestParam(value = "name", required = false) String nombre,
                                       @RequestParam(value = "edad", required = false, defaultValue = "0") int edad,
                                       @RequestParam(value = "peso", required = false, defaultValue = "0") float peso){
         List<Personaje> personajes = null;
@@ -102,17 +102,6 @@ public class PersonajeController {
             }
         return new ResponseEntity<>("No se encuentra ningún usuario registrado con el dato ingresado", HttpStatus.BAD_REQUEST);
     }
-    /*
-    @GetMapping(value = "/characters/edad")
-    ResponseEntity<?> buscarPorEdad(@RequestParam(value = "edad") int edad) {
-        List<Personaje> personajes = personajeService.buscarPersonajePorEdad(edad);
-        if (personajes.isEmpty()) {
-            return new ResponseEntity<>("No se encuentra ningun personaje con el nombre: " + edad, HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.ok(personajes);
-    }
-
-     */
 }
 
 

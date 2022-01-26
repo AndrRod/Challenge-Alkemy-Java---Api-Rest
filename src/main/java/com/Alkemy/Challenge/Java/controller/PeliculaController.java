@@ -36,7 +36,7 @@ public class PeliculaController {
     @GetMapping(value = "/detallePelicula/{id}")
     ResponseEntity<?> detallesPeliculaId(@PathVariable(value = "id") @Valid Long idPelicula){
         Optional<Pelicula> pelicula = peliculaService.detallePelicula(idPelicula);
-        if(pelicula.isEmpty()){return new ResponseEntity<>("No se encuentra ningún personaje con el id: " + idPelicula, HttpStatus.NOT_FOUND);}
+        if(pelicula.isEmpty()){return new ResponseEntity<>("No se encuentra ningúna pelicula con el id: " + idPelicula, HttpStatus.NOT_FOUND);}
         return ResponseEntity.ok(pelicula);
     }
     @PostMapping(value = "/crearPelicula/")
@@ -45,9 +45,71 @@ public class PeliculaController {
             peliculaService.crearPelicula(pelicula);
             return ResponseEntity.status(HttpStatus.CREATED).body(pelicula);
         }catch(Exception e){
-            return new ResponseEntity<>("Hubo un error al crear la pelicula: " + e, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Hubo un error al crear la pelicula: ", HttpStatus.BAD_REQUEST);
+        }
+    }
+    @DeleteMapping(value = "/eliminarPelicula/{id}")
+    public ResponseEntity<?> eliminarPelicula(@PathVariable(value = "id") Long idPelicula){
+        if(!peliculaService.buscarPeliculaPorId(idPelicula).isPresent()){
+            return new ResponseEntity<>("No se encuentra la pelicula con id: " + idPelicula, HttpStatus.NOT_FOUND);
+        }
+        String nombrePelicula = peliculaService.buscarPeliculaPorId(idPelicula).get().getTitulo();
+        peliculaService.borrarPelicula(idPelicula);
+        return ResponseEntity.ok("la pelicula " +  nombrePelicula + " fue borrada exitosamente");
+    }
+    @PutMapping(value = "/modificarPelicula/{id}")
+    public ResponseEntity<?> modifiacarPelicula(@Valid @RequestBody Pelicula peliculaModif, @PathVariable(value = "id") @Valid Long idPeli) {
+        Optional<Pelicula> pel = peliculaService.buscarPeliculaPorId(idPeli);
+        if (!pel.isPresent()) {return new ResponseEntity<>("Error: no se cuentra ninguna pelicula con el id ingresado: " + idPeli, HttpStatus.NOT_FOUND);}
+        pel.get().setCalificacion(peliculaModif.getCalificacion());
+        pel.get().setTitulo(peliculaModif.getTitulo());
+        pel.get().setImagen(peliculaModif.getImagen());
+        pel.get().setGeneros(peliculaModif.getGeneros());
+//        pel.get().setPersonajesAsociados(peliculaModif.getPersonajesAsociados());
+        try{
+            peliculaService.crearPelicula(pel.get());
+            return new ResponseEntity<>(pel.get(), HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>("Error al intentar modificar la pelicula", HttpStatus.BAD_REQUEST);
         }
     }
 
+    @GetMapping(value = "/movies")
+    public ResponseEntity<?> buscarPeliculasPor(@RequestParam(value = "name", required = false) String nombre,
+                                                @RequestParam(value = "order", required = false) String order){
+        List<Pelicula> peliculas;
+        /*System.out.println(order);
+        System.out.println(order.equals("ASC"));
+        System.out.println(order.getClass().getSimpleName());
+        System.out.println(nombre);
+        System.out.println(order.equals("DESC"));*/
+        try {
+            if (nombre != null) {
+                peliculas = peliculaService.buscarPeliculaPorNombre(nombre);
+                if (peliculas.isEmpty()) {
+                    return new ResponseEntity<>("No se encuentra ninguna pelicula con el nombre: " + nombre, HttpStatus.NOT_FOUND);
+                }
+                return ResponseEntity.ok(peliculas);
+            }
+            if(order.equals("ASC")) {
+                peliculas = peliculaService.ordenarPeliculasAsc();
+                if (peliculas.isEmpty()) {
+                    return new ResponseEntity<>("No se encuentra ninguna pelicula agregada", HttpStatus.NOT_FOUND);
+                }
+                return ResponseEntity.ok(peliculas);
+            }
+            if(order.equals("DESC")) {
+                peliculas = peliculaService.ordenarPeliculasDesc();
+                if (peliculas.isEmpty()) {
+                    return new ResponseEntity<>("No se encuentra ninguna pelicula agregada", HttpStatus.NOT_FOUND);
+                }
+                return ResponseEntity.ok(peliculas);
+            }
+        }
+        catch (Exception e){
+         return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>("Error: Ingreso un valor no deseado", HttpStatus.BAD_REQUEST);
+    }
 
 }

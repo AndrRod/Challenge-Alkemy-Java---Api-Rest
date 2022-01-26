@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Table
 public class Genero {
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
@@ -21,14 +20,14 @@ public class Genero {
     @Getter @Setter
     private String nombre;
 
-    //asociar con otra tabla
-    @Getter @Setter
-    private String peliculas;
+//    //asociar con otra tabla
+//    @Getter @Setter
+//    private String peliculas;
 
-    public Genero(String imagen, String nombre,  String peliculas){
+    public Genero(String imagen, String nombre){
         this.imagen = imagen;
         this.nombre = nombre;
-        this.peliculas = peliculas;
+
     }
     public Genero() {
     }
