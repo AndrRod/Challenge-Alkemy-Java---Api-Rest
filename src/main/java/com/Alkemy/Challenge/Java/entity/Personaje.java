@@ -37,9 +37,9 @@ public class Personaje {
     private String historia;
 
     //asociar de muchos a muchos con pelicula
-//    @Getter @Setter
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    private Collection<Pelicula> peliculas = new ArrayList<>();
+    @Getter @Setter
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Collection<Pelicula> peliculas = new ArrayList<>();
 
 
 //    @Getter @Setter

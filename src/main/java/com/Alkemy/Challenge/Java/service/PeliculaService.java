@@ -1,11 +1,9 @@
 package com.Alkemy.Challenge.Java.service;
 
-import com.Alkemy.Challenge.Java.entity.Genero;
-import com.Alkemy.Challenge.Java.entity.Pelicula;
-import com.Alkemy.Challenge.Java.entity.Rol;
-import com.Alkemy.Challenge.Java.entity.Usuario;
+import com.Alkemy.Challenge.Java.entity.*;
 import com.Alkemy.Challenge.Java.repository.GeneroRepository;
 import com.Alkemy.Challenge.Java.repository.PeliculaRepository;
+import com.Alkemy.Challenge.Java.repository.PersonajeRepository;
 import com.Alkemy.Challenge.Java.repository.RolRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +21,8 @@ public class PeliculaService {
     PeliculaRepository peliculaRepository;
     @Autowired
     GeneroRepository generoRepository;
+    @Autowired
+    PersonajeRepository personajeRepository;
 
 
     public List<Pelicula> listadoPeliculas (){return peliculaRepository.findAll();}
@@ -66,5 +66,15 @@ public class PeliculaService {
         Genero genero = generoRepository.findByNombre(nombre);
         pelicula.getGeneros().add(genero);
     }
+
+//    ver despues
+    public void agregarPersonajes(String titulo, String nombre) {
+        log.info("Agregando personaje {} a la pelicula {}.", nombre, titulo);
+        Pelicula pelicula = peliculaRepository.findByTitulo(titulo);
+        Personaje personaje = personajeRepository.findByNombre(nombre);
+        pelicula.getPersonajesAsociados().add(personaje);
+    }
+
+
 
 }

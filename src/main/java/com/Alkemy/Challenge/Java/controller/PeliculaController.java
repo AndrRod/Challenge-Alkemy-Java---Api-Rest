@@ -5,6 +5,7 @@ import com.Alkemy.Challenge.Java.dtos.PersonajeDto;
 import com.Alkemy.Challenge.Java.entity.Pelicula;
 import com.Alkemy.Challenge.Java.entity.Personaje;
 import com.Alkemy.Challenge.Java.service.PeliculaService;
+import com.Alkemy.Challenge.Java.service.PersonajeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,10 @@ public class PeliculaController {
 
     @Autowired
     private PeliculaService peliculaService;
+
+    @Autowired
+    private PersonajeService personajeService;
+
 
     @GetMapping(value = "/movies/")
     public ResponseEntity<?> obtenerPeliculas(){
@@ -65,7 +70,7 @@ public class PeliculaController {
         pel.get().setTitulo(peliculaModif.getTitulo());
         pel.get().setImagen(peliculaModif.getImagen());
         pel.get().setGeneros(peliculaModif.getGeneros());
-//        pel.get().setPersonajesAsociados(peliculaModif.getPersonajesAsociados());
+        pel.get().setPersonajesAsociados(peliculaModif.getPersonajesAsociados());
         try{
             peliculaService.crearPelicula(pel.get());
             return new ResponseEntity<>(pel.get(), HttpStatus.OK);
@@ -110,6 +115,19 @@ public class PeliculaController {
          return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Error: Ingreso un valor no deseado", HttpStatus.BAD_REQUEST);
+    }
+    @PostMapping("movies/agregarAPersonaje")
+    public ResponseEntity<?> agregarPeliculaAPersonaje(@RequestBody Pelicula pelicula, Personaje personaje){
+        try{
+        peliculaService.agregarPersonajes(pelicula.getTitulo(), personaje.getNombre());
+
+        personajeService.agregarPeliculaRelacionada(personaje.getNombre(), pelicula.getTitulo());
+
+        return new ResponseEntity<>(pelicula, HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>("Error al intentar agregar personaje a la pelicula", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 }

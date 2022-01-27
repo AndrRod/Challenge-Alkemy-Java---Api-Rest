@@ -1,6 +1,7 @@
 package com.Alkemy.Challenge.Java.security;
 
 import com.Alkemy.Challenge.Java.filter.ConfigAutenticacionFilter;
+import com.Alkemy.Challenge.Java.filter.ConfigAutorizacionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,9 +13,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static jdk.nashorn.internal.runtime.PropertyDescriptor.GET;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration @EnableWebSecurity @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -32,15 +35,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ConfigAutenticacionFilter configAutenticacionFilter = new ConfigAutenticacionFilter(authenticationManagerBean());
         configAutenticacionFilter.setFilterProcessesUrl("/api/login");
         http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        http.authorizeRequests().antMatchers("/api/login/**", "api/usuarios/guardar").permitAll();
+        http.sessionManagement().sessionCreationPolicy(STATELESS);
+        http.authorizeRequests().antMatchers("/api/login", "/api/login/**").permitAll();
 //        http.authorizeRequests().antMatchers(GET, "/api/usuarios/**").hasAnyAuthority("ROL_USUARIO");
 //        http.authorizeRequests().antMatchers(POST, "/api/usuarios/guardar/**").hasAnyAuthority("ROL_ADMIN");
         http.authorizeRequests().anyRequest()
-//                .authenticated();
-                .permitAll();
-//        http.addFilter(new ConfigAutenticacionFilter(authenticationManagerBean()));
+                .authenticated();
+//                .permitAll();
         http.addFilter(configAutenticacionFilter);
+        http.addFilterBefore(new ConfigAutorizacionFilter(), UsernamePasswordAuthenticationFilter.class);
     }
     @Bean
     @Override
