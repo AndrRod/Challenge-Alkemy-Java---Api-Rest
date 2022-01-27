@@ -4,6 +4,7 @@ import com.Alkemy.Challenge.Java.dtos.PeliculaDto;
 import com.Alkemy.Challenge.Java.dtos.PersonajeDto;
 import com.Alkemy.Challenge.Java.entity.Pelicula;
 import com.Alkemy.Challenge.Java.entity.Personaje;
+import com.Alkemy.Challenge.Java.service.GeneroService;
 import com.Alkemy.Challenge.Java.service.PeliculaService;
 import com.Alkemy.Challenge.Java.service.PersonajeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class PeliculaController {
     @Autowired
     private PersonajeService personajeService;
 
+    @Autowired
+    private GeneroService generoService;
 
     @GetMapping(value = "/movies/")
     public ResponseEntity<?> obtenerPeliculas(){
@@ -83,11 +86,6 @@ public class PeliculaController {
     public ResponseEntity<?> buscarPeliculasPor(@RequestParam(value = "name", required = false) String nombre,
                                                 @RequestParam(value = "order", required = false) String order){
         List<Pelicula> peliculas;
-        /*System.out.println(order);
-        System.out.println(order.equals("ASC"));
-        System.out.println(order.getClass().getSimpleName());
-        System.out.println(nombre);
-        System.out.println(order.equals("DESC"));*/
         try {
             if (nombre != null) {
                 peliculas = peliculaService.buscarPeliculaPorNombre(nombre);
@@ -116,18 +114,32 @@ public class PeliculaController {
         }
         return new ResponseEntity<>("Error: Ingreso un valor no deseado", HttpStatus.BAD_REQUEST);
     }
-    @PostMapping("movies/agregarAPersonaje")
-    public ResponseEntity<?> agregarPeliculaAPersonaje(@RequestBody Pelicula pelicula, Personaje personaje){
+
+    @PostMapping("movies/idPelicula/{idPelic}/idPersonaje/{idPers}")
+    public ResponseEntity<?> agregarPersonajeAPelicula(@PathVariable(value = "idPers") Long idNombre,
+                                                       @PathVariable(value = "idPelic") Long idTitulo){
+
+        String nombre = personajeService.buscarPersonajePorId(idNombre).get().getNombre();
+        String titulo = peliculaService.buscarPeliculaPorId(idTitulo).get().getTitulo();
         try{
-        peliculaService.agregarPersonajes(pelicula.getTitulo(), personaje.getNombre());
-
-        personajeService.agregarPeliculaRelacionada(personaje.getNombre(), pelicula.getTitulo());
-
-        return new ResponseEntity<>(pelicula, HttpStatus.OK);
+            peliculaService.agregarPersonajes(titulo, nombre);
+            return new ResponseEntity<>(peliculaService.buscarPeliculaPorId(idNombre), HttpStatus.OK);
         }catch (Exception e) {
-            return new ResponseEntity<>("Error al intentar agregar personaje a la pelicula", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error al intentar agregar personaje" +nombre+ " a la pelicula " + titulo, HttpStatus.BAD_REQUEST);
         }
-
     }
 
+    @PostMapping("movies/idPelicula/{idPelic}/idGenero/{idGen}")
+    public ResponseEntity<?> agregarGeneroAPelicula(@PathVariable(value = "idGen") Long id,
+                                                       @PathVariable(value = "idPelic") Long idTitulo){
+
+        String nombre = generoService.buscarGeneroPorId(id).get().getNombre();
+        String titulo = peliculaService.buscarPeliculaPorId(idTitulo).get().getTitulo();
+        try{
+            peliculaService.agregarGeneroAPelicula(titulo, nombre);
+            return new ResponseEntity<>(peliculaService.buscarPeliculaPorId(id), HttpStatus.OK);
+        }catch (Exception e) {
+            return new ResponseEntity<>("Error al intentar agregar genero " +nombre+ " a la pelicula " + titulo, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

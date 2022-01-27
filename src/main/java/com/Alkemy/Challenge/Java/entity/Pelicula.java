@@ -1,13 +1,10 @@
 package com.Alkemy.Challenge.Java.entity;
-
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
+
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -16,6 +13,7 @@ import javax.validation.constraints.Min;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+
 
 @Entity
 @NoArgsConstructor
@@ -43,22 +41,21 @@ public class Pelicula {
     @Getter @Setter
     private int calificacion;
 
-    //relacion de muchos a muchos con personajes
-    @Getter @Setter
-    @JoinColumn(name = "id")
-    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonIdentityInfo(
+            generator = ObjectIdGenerators.PropertyGenerator.class,
+            property = "id")
+    @Setter @Getter
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "personaje_pelicula",
+            joinColumns = @JoinColumn(name = "pelicula_id"),
+            inverseJoinColumns = @JoinColumn(name = "personaje_id")
+    )
     private Collection<Personaje> personajesAsociados = new ArrayList<>();
 
-//    @Getter @Setter
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//    @JoinColumn(name = "personaje_id")
-//    private Personaje personajeAsociados;
-
     @Getter @Setter
-//    @JoinColumn(name = "genero_id")
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Genero> generos = new ArrayList<>();
-
-
 }

@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("")
 public class UsuarioController {
     private final UsuarioService usuarioService;
 
@@ -26,7 +26,7 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuarioService.getUsuarios());
     }
 
-    @PostMapping("/usuarios/guardar")
+    @PostMapping("/auth/register")
     public ResponseEntity<Usuario> guardarUsuario(@RequestBody Usuario usuario){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/usuarios/guardar").toUriString());
         return ResponseEntity.created(uri).body(usuarioService.guardarUsuario(usuario));

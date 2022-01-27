@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table
 public class Genero {

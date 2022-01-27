@@ -38,7 +38,7 @@ public class ConfigAutorizacionFilter extends OncePerRequestFilter {
             String autorizacionHeader = request.getHeader(AUTHORIZATION);
             if(autorizacionHeader != null && autorizacionHeader.startsWith("Token: ")){
                 try {
-                    String token = autorizacionHeader.substring("Token: ".length());
+                    String token = autorizacionHeader.substring("Token ".length());
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
                     JWTVerifier verifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = verifier.verify(token);
