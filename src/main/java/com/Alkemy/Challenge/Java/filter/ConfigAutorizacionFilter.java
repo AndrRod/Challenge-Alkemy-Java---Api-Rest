@@ -32,11 +32,11 @@ public class ConfigAutorizacionFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if(request.getServletPath().equals("/api/login")){
+        if(request.getServletPath().equals("/auth/login")){
             filterChain.doFilter(request, response);
         }else{
             String autorizacionHeader = request.getHeader(AUTHORIZATION);
-            if(autorizacionHeader != null && autorizacionHeader.startsWith("Token: ")){
+            if(autorizacionHeader != null && autorizacionHeader.startsWith("Token ")){
                 try {
                     String token = autorizacionHeader.substring("Token ".length());
                     Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
@@ -52,7 +52,7 @@ public class ConfigAutorizacionFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     filterChain.doFilter(request, response);
                 }catch (Exception exception){
-                log.error("Error de loggin en: {}", exception.getMessage());
+                log.error("Error de login en: {}", exception.getMessage());
                 response.setHeader("error", exception.getMessage());
                 response.setStatus(FORBIDDEN.value());
 //                response.sendError(FORBIDDEN.value());

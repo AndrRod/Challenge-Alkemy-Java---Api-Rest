@@ -20,7 +20,4 @@ public class ChallengeJavaApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-//	@Bean
-//	CommandLineRunner run(UsuarioService usuarioService){};
-
 }

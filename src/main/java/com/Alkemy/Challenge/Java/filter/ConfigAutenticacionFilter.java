@@ -51,13 +51,13 @@ public class ConfigAutenticacionFilter extends UsernamePasswordAuthenticationFil
         String acceso_token = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-                .withIssuer(request.getRequestURI().toString())
+                .withIssuer(request.getRequestURL().toString())
                 .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
         String actualizar_token = JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
-                .withIssuer(request.getRequestURI().toString())
+                .withIssuer(request.getRequestURL().toString())
                 .sign(algorithm);
 //        response.setHeader("acceso_token", acceso_token);
 //        response.setHeader("actualizar_token", actualizar_token);
