@@ -24,6 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.*;
 
@@ -45,7 +46,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Usuario> guardarUsuario(@RequestBody Usuario usuario){
+    public ResponseEntity<Usuario> guardarUsuario(@Valid @RequestBody Usuario usuario){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/guardar").toUriString());
         emailService.sendEmail(usuario.getEmail());
         return ResponseEntity.created(uri).body(usuarioService.guardarUsuario(usuario));

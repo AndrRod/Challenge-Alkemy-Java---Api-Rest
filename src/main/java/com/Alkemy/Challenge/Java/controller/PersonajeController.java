@@ -71,6 +71,7 @@ public class PersonajeController {
     }
     @GetMapping(value = "/characters")
     public ResponseEntity<?> buscarPorNombre(@RequestParam(value = "name", required = false) String nombre,
+                                     @RequestParam(value = "movies", required = false, defaultValue = "0") Long idPel,
                                       @RequestParam(value = "age", required = false, defaultValue = "0") int edad,
                                       @RequestParam(value = "weight", required = false, defaultValue = "0") float peso){
         List<Personaje> personajes = null;
@@ -79,6 +80,13 @@ public class PersonajeController {
                 personajes = personajeService.buscarPersonajePorNombre(nombre);
                 if (personajes.isEmpty()) {
                     return new ResponseEntity<>("No se encuentra ningun personaje con el nombre: " + nombre, HttpStatus.NOT_FOUND);
+                }
+                return ResponseEntity.ok(personajes);
+            }
+            if (idPel != 0) {
+                personajes = personajeService.buscarPorPelicula(idPel);
+                if (personajes.isEmpty()) {
+                    return new ResponseEntity<>("No se encuentra ningun personaje asociado a una pelicula con el id: " + idPel, HttpStatus.NOT_FOUND);
                 }
                 return ResponseEntity.ok(personajes);
             }
@@ -98,9 +106,13 @@ public class PersonajeController {
             }
         }
         catch (Exception e){
-            return new ResponseEntity<>("Error: hubo un error al ingresar los datos, reveer los datos ingresados", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error: " + e.getMessage() , HttpStatus.BAD_REQUEST);
             }
         return new ResponseEntity<>("No se encuentra ningún usuario registrado con el dato ingresado", HttpStatus.BAD_REQUEST);
+    }
+    @GetMapping(value = "/characters/p")
+    public ResponseEntity<?> buscarPorNombre(@RequestParam(value = "movies", required = false, defaultValue = "0") Long idPel){
+        return ResponseEntity.ok(personajeService.buscarPorPelicula(idPel));
     }
 }
 

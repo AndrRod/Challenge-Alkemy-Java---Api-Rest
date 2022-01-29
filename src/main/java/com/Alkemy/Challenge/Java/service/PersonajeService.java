@@ -1,13 +1,10 @@
 package com.Alkemy.Challenge.Java.service;
-import com.Alkemy.Challenge.Java.dtos.PeliculaDto;
-import com.Alkemy.Challenge.Java.dtos.PersonajeDto;
 import com.Alkemy.Challenge.Java.entity.Pelicula;
 import com.Alkemy.Challenge.Java.entity.Personaje;
 import com.Alkemy.Challenge.Java.repository.PeliculaRepository;
 import com.Alkemy.Challenge.Java.repository.PersonajeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -18,7 +15,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 @Transactional
 @Service
 @Slf4j
@@ -42,7 +39,18 @@ public class PersonajeService {
 
     public List<Personaje> buscarPersonajePorPeso(float peso) { return personajeRepository.findAll().stream().filter(p-> {return p.getPeso() == peso;}).collect(Collectors.toList());}
 
-
+    public List<Personaje> buscarPorPelicula(Long idPel) {
+        Optional<Pelicula> pelicula = peliculaRepository.findById(idPel);
+        List<Personaje> personajes = new ArrayList<>();
+        for (Personaje x : personajeRepository.findAll()) {
+            for (Pelicula g : x.getPeliculas()) {
+                if (g.equals(pelicula.get())) {
+                    personajes.add(x);
+                }
+            }
+        }
+        return personajes;
+    }
 //    public void agregarPeliculaRelacionada(String nombre, String titulo) {
 //    log.info("Agregando pelicula {} y relacionarla al personaje {}.", nombre, titulo);
 //    Pelicula pelicula = peliculaRepository.findByTitulo(titulo);

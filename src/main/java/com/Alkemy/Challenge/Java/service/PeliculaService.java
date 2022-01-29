@@ -39,13 +39,17 @@ public class PeliculaService {
 
     public List<Pelicula> ordenarPeliculasAsc(){
         List<Pelicula> peliAsc = peliculaRepository.findAll();
-        Collections.sort(peliAsc, new Comparator<Pelicula>() {
-            @Override
-            public int compare(Pelicula o1, Pelicula o2) {
-                return o1.getFechaDeCreacion().compareTo(o2.getFechaDeCreacion());
-            }
-        });
-        return peliAsc;
+        return peliAsc.stream().sorted(Comparator.comparing(Pelicula::getFechaDeCreacion))
+                .collect(Collectors.toList());
+
+//        ALTERNATIVA PARA ORDENAR PELICULAS (ASC)
+//        Collections.sort(peliAsc, new Comparator<Pelicula>() {
+//            @Override
+//            public int compare(Pelicula o1, Pelicula o2) {
+//                return o1.getFechaDeCreacion().compareTo(o2.getFechaDeCreacion());
+//            }
+//        });
+//        return peliAsc;
     }
 
 
@@ -55,9 +59,16 @@ public class PeliculaService {
                 .collect(Collectors.toList());
     }
 
-    public Genero guardarGenero(Genero genero) {
-        log.info("guardado nuevo genero {} en la base de datos", genero.getNombre());
-        return generoRepository.save(genero);
+    public List<Pelicula> buscarPorGenero(String genero) {
+        List<Pelicula> peliculas = new ArrayList<>();
+        for (Pelicula x : peliculaRepository.findAll()) {
+            for (Genero g : x.getGeneros()) {
+                if (g.getNombre().equalsIgnoreCase(genero)) {
+                    peliculas.add(x);
+                }
+            }
+        }
+        return peliculas;
     }
 
     public void agregarGeneroAPelicula(String titulo, String nombre) {
@@ -74,7 +85,5 @@ public class PeliculaService {
         Personaje personaje = personajeRepository.findByNombre(nombre);
         pelicula.getPersonajesAsociados().add(personaje);
     }
-
-
 
 }
