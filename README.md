@@ -163,6 +163,28 @@ Ordenar los resultados por fecha de creación de forma ascendiente o descendient
 Para el envío de mail se utilizó el Servicio [SendGrid](https://app.sendgrid.com/ "SendGrid").
 Mediante el cual, cuando un usuario se registra (http://localhost:8080/auth/register) se envía un email con un mensaje de Bienvenida al correo registrado. El mail es enviado desde mi cuenta personal registrada en el sitio indicado (SendGrid), mediante una API KEY que valida los enviós de mails.
 
+## 12 PATH ADICIONALES
 
+### A. GENEROS:
+
+### POST (crear)
+	http://localhost:8080/generos
+
+Ejemplo:
+
+    {
+        "imagen": "url3",
+        "nombre": "comedia romantica"
+    }
     
+### GET (Mostrar generos)
 
+    http://localhost:8080/generos
+
+### DELETE by ID
+
+    http://localhost:8080/generos/{id}
+
+### PUT by ID
+
+    http://localhost:8080/generos/{id}
