@@ -10,25 +10,25 @@ Desarrollar una API para explorar el mundo de Disney, la cual permitirá conocer
 
 ### Requerimientos técnicos
 ## 1. Modelado de Base de Datos
--**Personaje:**  deberá tener,
-○ Imagen.
-○ Nombre.
-○ Edad.
-○ Peso.
-○ Historia.
-○ Películas o series asociadas.
+**Personaje:**  deberá tener:
+- Imagen.
+- Nombre.
+- Edad.
+- Peso.
+- Historia.
+- Películas o series asociadas.
 
--**Película o Serie:**  deberá tener,
-○ Imagen.
-○ Título.
-○ Fecha de creación.
-○ Calificación (del 1 al 5).
-○ Personajes asociados.
+ **Película o Serie:**  deberá tener:
+- Imagen.
+- Título.
+- Fecha de creación.
+- Calificación (del 1 al 5).
+- Personajes asociados.
 
--**Género:** deberá tener,
-○ Nombre.
-○ Imagen.
-○ Películas o series asociadas.
+**Género:** deberá tener:
+- Nombre.
+- Imagen.
+- Películas o series asociadas.
 
 ## 2. Autenticación de Usuarios
 El usuario despues de registrarse y logearse, obteniene un token, el cual es necesario y requerido para acceder a los demás path
