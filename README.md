@@ -1,4 +1,4 @@
-#CHALLENGE BACKEND - Java - Spring Boot (API) 🚀
+# CHALLENGE BACKEND - Java - Spring Boot (API) 🚀
 
 ### Objetivo
 
@@ -8,9 +8,9 @@ Desarrollar una API para explorar el mundo de Disney, la cual permitirá conocer
 👉 Las rutas deberán seguir el patrón REST.
 👉 Utilizar la librería Spring Security.
 
-###Requerimientos técnicos
-##1. Modelado de Base de Datos
-- ** Personaje:**  deberá tener,
+### Requerimientos técnicos
+## 1. Modelado de Base de Datos
+-**Personaje:**  deberá tener,
 ○ Imagen.
 ○ Nombre.
 ○ Edad.
@@ -18,33 +18,33 @@ Desarrollar una API para explorar el mundo de Disney, la cual permitirá conocer
 ○ Historia.
 ○ Películas o series asociadas.
 
-- **Película o Serie:**  deberá tener,
+-**Película o Serie:**  deberá tener,
 ○ Imagen.
 ○ Título.
 ○ Fecha de creación.
 ○ Calificación (del 1 al 5).
 ○ Personajes asociados.
 
--  ** Género:**  deberá tener,
+-**Género:** deberá tener,
 ○ Nombre.
 ○ Imagen.
 ○ Películas o series asociadas.
 
-##2. Autenticación de Usuarios
+## 2. Autenticación de Usuarios
 El usuario despues de registrarse y logearse, obteniene un token, el cual es necesario y requerido para acceder a los demás path
 
-# POST
+### POST
 	http://localhost:8080/auth/login
 
-# POST
+### POST
 	http://localhost:8080/auth/register
 
 
-##3. Listado de Personajes
+## 3. Listado de Personajes
 
 Con el siguiente endpoint se muestra los personajes, pero solamente se filtra a traves de un DTO los datos de: imagen y nombre.
 
-##4. Personajes (CRUD)
+## 4. Personajes (CRUD)
 
 ### POST
 	http://localhost:8080/crearPersonaje/
@@ -52,10 +52,10 @@ Con el siguiente endpoint se muestra los personajes, pero solamente se filtra a 
 ### PUT by ID
 	http://localhost:8080/modificarPersonaje/{id}
 
-###DELETE by ID
+### DELETE by ID
 	http://localhost:8080/borrarPersonaje/{id}
 
-##5. Personaje detalle
+## 5. Personaje detalle
 
 En el detalle se alistan todos los atributos del personaje, como así también sus películas relacionadas.
 ### GET By ID
