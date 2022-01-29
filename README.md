@@ -3,10 +3,10 @@
 ### Objetivo
 
 Desarrollar una API para explorar el mundo de Disney, la cual permitirá conocer y modificar los personajes que lo componen y entender en qué películas estos participaron. Por otro lado, deberá exponer la información para que cualquier frontend pueda consumirla. 
-    👉 Utilizar Spring Boot
-    👉 No es necesario armar el Frontend
-    👉 Las rutas deberán seguir el patrón REST
-    👉 Utilizar la librería Spring Security
+- 👉 Utilizar Spring Boot
+- 👉 No es necesario armar el Frontend
+- 👉 Las rutas deberán seguir el patrón REST
+- 👉 Utilizar la librería Spring Security
 
 ### Requerimientos técnicos
 ## 1. Modelado de Base de Datos
@@ -31,13 +31,25 @@ Desarrollar una API para explorar el mundo de Disney, la cual permitirá conocer
 - Películas o series asociadas.
 
 ## 2. Autenticación de Usuarios
-El usuario despues de registrarse y logearse, obteniene un token, el cual es necesario y requerido para acceder a los demás path, una vez que pasa 10 minutos el token queda desactualizado o vencido, lo que obliga a que el usuario vuelva a generarlo.
-Para desactivar el pedido de token en los paths es necesario comentar la linea 44 de la clase llamada Security Config (.authenticated();) y sacar el comentario a la linea 45 del mismo (.permitAll();)
-### POST
+El usuario despues de registrarse y logearse, obteniene un token, el cual es necesario y requerido para acceder a los demás paths, una vez que pasa 10 minutos el token queda desactualizado o vencido, lo que obliga a que el usuario vuelva a generarlo mediante un nuevo login.
+Para desactivar el pedido de token y login en los paths es necesario comentar la linea 44 de la clase llamada Security Config (.authenticated();) y sacar el comentario a la linea 45 del mismo (.permitAll();)
+
+### POST (registro)
+	http://localhost:8080/auth/register
+
+Ejemplo:
+
+    {        
+        "nombreCompleto": "andres Rodriguez",
+        "email": "andres_rod_000@hotmail.com",
+        "username": "andresRod",
+        "contrasenia": "123"
+    }
+
+### POST (login)
 	http://localhost:8080/auth/login
 
-### POST
-	http://localhost:8080/auth/register
+![img.png](img.png)
 
 
 ## 3. Listado de Personajes
@@ -52,6 +64,16 @@ Con el siguiente endpoint se muestra los personajes, pero solamente se filtra a 
 ### POST
 	http://localhost:8080/crearPersonaje/
 
+Ejemplo:
+
+    {
+    "imagen": "urlImg",
+    "nombre": "roberto carlos",
+    "peso": 120.5,
+    "edad": 23,
+    "historia": "historia1"    
+    }
+
 ### PUT by ID
 	http://localhost:8080/modificarPersonaje/{id}
 
@@ -61,6 +83,7 @@ Con el siguiente endpoint se muestra los personajes, pero solamente se filtra a 
 ## 5. Personaje detalle
 
 En el detalle se alistan todos los atributos del personaje, como así también sus películas relacionadas.
+
 ### GET By ID
 	http://localhost:8080/detallePersonaje/{id}
 
@@ -100,6 +123,14 @@ Devuelve todos los campos de la película o serie junto a los personajes asociad
 
 ### POST
 	http://localhost:8080/crearPelicula/
+
+Ejemplo:
+
+    {    
+    "imagen": "urlImg",
+    "titulo": "Spiderman",    
+    "calificacion": 5    
+    }
 
 ### PUT by ID
 	http://localhost:8080/modificarPelicula/{id}

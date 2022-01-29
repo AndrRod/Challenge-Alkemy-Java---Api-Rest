@@ -41,7 +41,6 @@ public class Pelicula {
 
     @Min(value= 1, message = "el minimo de calificacion es 1") @Max(value= 5 ,message = "el máximo de calificacion es 5")
     @Getter @Setter
-    @NotBlank(message = "no debe estar en blanco.")
     private int calificacion;
 
     @JsonIdentityInfo(
