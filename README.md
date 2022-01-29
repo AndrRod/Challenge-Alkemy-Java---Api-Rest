@@ -31,7 +31,7 @@ Desarrollar una API para explorar el mundo de Disney, la cual permitirá conocer
 - Películas o series asociadas.
 
 ## 2. Autenticación de Usuarios
-El usuario despues de registrarse y logearse, obteniene un token, el cual es necesario y requerido para acceder a los demás path
+El usuario despues de registrarse y logearse, obteniene un token, el cual es necesario y requerido para acceder a los demás path, una vez que pasa 10 minutos el token queda desactualizado o vencido, lo que obliga a que el usuario vuelva a generarlo.
 
 ### POST
 	http://localhost:8080/auth/login
