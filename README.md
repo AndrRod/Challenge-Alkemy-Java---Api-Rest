@@ -49,7 +49,13 @@ Ejemplo:
 ### POST (login)
 	http://localhost:8080/auth/login
 
+Ejemplo login:
 ![img.png](img.png)
+
+Ejemplo de path usando el token generado por el login:
+
+![img_1.png](img_1.png)
+
 
 
 ## 3. Listado de Personajes
