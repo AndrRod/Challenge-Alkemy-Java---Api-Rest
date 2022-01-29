@@ -188,3 +188,13 @@ Ejemplo:
 ### PUT by ID
 
     http://localhost:8080/generos/{id}
+
+## B. PELICULAS:
+
+## POST by ID (agregar personaje a pelicula)
+
+    http://localhost:8080/movies/idPelicula/{idPel}/idPersonaje/{idPers]
+
+## POST by ID (agregar genero a pelicula)
+
+    http://localhost:8080/movies/idPelicula/{idPel}/idGenero/{idGen}
