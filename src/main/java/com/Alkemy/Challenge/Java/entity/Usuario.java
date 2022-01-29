@@ -21,6 +21,7 @@ public class Usuario implements Serializable {
 
     @Getter @Setter
     private String nombreCompleto;
+
     @Email(regexp = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", message="no cumple con los requisitos")
     @Getter @Setter @Column(unique = true)
     @NotBlank(message = "no debe estar en blanco.")

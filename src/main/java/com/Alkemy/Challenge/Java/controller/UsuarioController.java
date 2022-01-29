@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import net.bytebuddy.implementation.bytecode.Throw;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -46,7 +47,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Usuario> guardarUsuario(@Valid @RequestBody Usuario usuario){
+    public ResponseEntity<?> guardarUsuario(@Valid @RequestBody Usuario usuario){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/guardar").toUriString());
         emailService.sendEmail(usuario.getEmail());
         return ResponseEntity.created(uri).body(usuarioService.guardarUsuario(usuario));
@@ -57,12 +58,15 @@ public class UsuarioController {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/rol/guardar").toUriString());
         return ResponseEntity.created(uri).body(usuarioService.guardarRol(rol));
     }
+
+//    QUEDA PENDIENTE DAR FUNCIONALIDAD A LOS ROLES POR USUARIO
     @PostMapping("rol/agregarAUsuario")
     public ResponseEntity<?> agregarRolAUsuario(@RequestBody RoleToUserForm form){
         usuarioService.agregarRolAUsuario(form.getUsername(), form.getRoleNombre());
         return  ResponseEntity.ok().build();
     }
-    //todavia falta
+
+    //todavia falta - QUEDA PENDIENTE REFRESH DEL TOKEN
     @GetMapping("rol/refreshToken")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response){
         String autorizacionHeader = request.getHeader(AUTHORIZATION);

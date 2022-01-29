@@ -10,6 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -30,6 +31,7 @@ public class Pelicula {
 
     @Getter @Setter
     @Column(nullable = false)
+    @NotBlank(message = "no debe estar en blanco.")
     private String titulo;
 
     @CreationTimestamp
@@ -39,6 +41,7 @@ public class Pelicula {
 
     @Min(value= 1, message = "el minimo de calificacion es 1") @Max(value= 5 ,message = "el máximo de calificacion es 5")
     @Getter @Setter
+    @NotBlank(message = "no debe estar en blanco.")
     private int calificacion;
 
     @JsonIdentityInfo(

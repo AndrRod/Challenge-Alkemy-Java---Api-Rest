@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -23,12 +24,14 @@ public class Personaje {
     @Getter @Setter
     private String imagen;
     @Getter @Setter
+    @NotBlank(message = "no debe estar en blanco.")
     private String nombre;
     @Getter @Setter
     private float peso;
     @Getter @Setter
     private int edad;
     @Getter @Setter
+    @NotBlank(message = "no debe estar en blanco.")
     private String historia;
     @JsonIdentityInfo(
             generator = ObjectIdGenerators.PropertyGenerator.class,

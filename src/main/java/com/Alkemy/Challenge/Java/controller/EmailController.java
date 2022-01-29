@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class EmailController {
-    @Autowired
-    private EmailService emailService;
 
+//    CONTROLLER CREADO PARA PRUEBA DEL ENVIO DE CORREO
+//    @Autowired
+//    private EmailService emailService;
+//
 //    @PostMapping("/sendEmail")
 //    public ResponseEntity<String> sendEmail(@RequestBody EmailRequest emailRequest){
 //        Response response= emailService.sendEmail(emailRequest);
