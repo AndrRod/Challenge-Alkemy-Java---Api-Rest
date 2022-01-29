@@ -71,8 +71,8 @@ public class PersonajeController {
     }
     @GetMapping(value = "/characters")
     public ResponseEntity<?> buscarPorNombre(@RequestParam(value = "name", required = false) String nombre,
-                                      @RequestParam(value = "edad", required = false, defaultValue = "0") int edad,
-                                      @RequestParam(value = "peso", required = false, defaultValue = "0") float peso){
+                                      @RequestParam(value = "age", required = false, defaultValue = "0") int edad,
+                                      @RequestParam(value = "weight", required = false, defaultValue = "0") float peso){
         List<Personaje> personajes = null;
         try {
             if (nombre != null) {

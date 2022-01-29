@@ -44,6 +44,9 @@ El usuario despues de registrarse y logearse, obteniene un token, el cual es nec
 
 Con el siguiente endpoint se muestra los personajes, pero solamente se filtra a traves de un DTO los datos de: imagen y nombre.
 
+### GET
+	http://localhost:8080/characters/
+
 ## 4. Personajes (CRUD)
 
 ### POST
@@ -61,6 +64,68 @@ En el detalle se alistan todos los atributos del personaje, como así también s
 ### GET By ID
 	http://localhost:8080/detallePersonaje/{id}
 
+## 6. Búsqueda de Personajes
+
+Busqueda por nombre:
+
+    http://localhost:8080/characters?name={nombre}
+
+Busqueda por Edad:
+
+    http://localhost:8080/characters?age={edad}
+
+Busqueda por Peso:
+
+    http://localhost:8080/characters?weight={peso}
+
+Busqueda por Pelicula asociada:
+
+    http://localhost:8080/characters?movies={idPelicula}
 
 
+## 7. Listado de Películas
+
+Muestra solamente a traves de un Dto los campos imagen, título y fecha de creación.
+
+    http://localhost:8080/movies/
+
+## 8. Detalle de Película / Serie con sus personajes
+
+Devuelve todos los campos de la película o serie junto a los personajes asociados a la misma.
+(Debido a la relación many to many bidireccional con Personajes y para evitar Recursión infinita se utilizo la anotación @JsonIdentityInfo)
+
+    http://localhost:8080/detallePelicula/{idPelicula}
+
+## 9. Película / Serie CRUD
+
+### POST
+	http://localhost:8080/crearPelicula/
+
+### PUT by ID
+	http://localhost:8080/modificarPelicula/{id}
+
+### DELETE by ID
+	http://localhost:8080/eliminarPelicula/{id}
+
+## 10.Búsqueda de Películas o Series
+
+Busqueda por Titulo o nombre:
+
+    http://localhost:8080/movies?name={titulo}
+
+Filtro por Género:
+    
+    http://localhost:8080/movies?genero={género}
+
+Ordenar los resultados por fecha de creación de forma ascendiente o descendiente:
+
+    http://localhost:8080/movies?order={ASC | DESC }
+
+## 11. Envío de emails
+
+Para el envío de mail se utilizó el Servicio [SendGrid](https://app.sendgrid.com/ "SendGrid").
+Mediante el cual, cuando un usuario se registra (http://localhost:8080/auth/register) se envía un email con un mensaje de Bienvenida al correo registrado. El mail es enviado desde mi cuenta personal registrada en el sitio indicado (SendGrid), mediante una API KEY que valida los enviós de mails.
+
+
+    
 
