@@ -32,7 +32,7 @@ Desarrollar una API para explorar el mundo de Disney, la cual permitirá conocer
 
 ## 2. Autenticación de Usuarios
 El usuario despues de registrarse y logearse, obteniene un token, el cual es necesario y requerido para acceder a los demás paths, una vez que pasa 10 minutos el token queda desactualizado o vencido, lo que obliga a que el usuario vuelva a generarlo mediante un nuevo login.
-Para desactivar el pedido de token y login en los paths es necesario comentar la linea 44 y 48 de la clase llamada SecurityConfig (.authenticated();) y sacar el comentario a la linea 45 del mismo (.permitAll();)
+Para desactivar el pedido de token y login en los paths es necesario comentar la linea 44 y 48 de la clase llamada SecurityConfig (.authenticated();) y sacar el comentario a la linea 46 del mismo (.permitAll();)
 
 ### POST (registro)
 	http://localhost:8080/auth/register
