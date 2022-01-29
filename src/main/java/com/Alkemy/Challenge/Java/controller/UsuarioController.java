@@ -52,7 +52,7 @@ public class UsuarioController {
         emailService.sendEmail(usuario.getEmail());
         return ResponseEntity.created(uri).body(usuarioService.guardarUsuario(usuario));
     }
-
+//QUEDA PENDIENTE ARREGLAR E IMPLEMENTAR
     @PostMapping("/rol/guardar")
     public ResponseEntity<Rol> guardarRol(@RequestBody Rol rol){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/rol/guardar").toUriString());

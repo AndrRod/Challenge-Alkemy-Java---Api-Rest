@@ -199,3 +199,7 @@ Ejemplo:
 ### POST by ID (agregar genero a pelicula)
 
     http://localhost:8080/movies/idPelicula/{idPel}/idGenero/{idGen}
+
+## 13 DOCUMENTACION
+
+Fueron documentados los endpoints utilizando Postman, el archivo json correspondiente al mismo fue agregado al proyecto con el nombre: Coleccion Alkemi Challenge.postman_collection.json
