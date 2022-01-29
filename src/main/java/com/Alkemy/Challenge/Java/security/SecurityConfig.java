@@ -37,14 +37,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers("/auth/login/**", "/auth/register/**").permitAll();
+//        FALTA IMPLEMENTAR ROLES:
 //        http.authorizeRequests().antMatchers(GET, "/api/user/**").hasAnyAuthority("ROL_USUARIO");
 //        http.authorizeRequests().antMatchers(POST, "/auth/usuarios", "/auth/rol/**").hasAnyAuthority("ROL_ADMIN");
 //        http.authorizeRequests().antMatchers(GET, "/**").hasAnyAuthority("ROL_ADMIN");
         http.authorizeRequests().anyRequest()
-//                .authenticated();
-                .permitAll();
+                .authenticated();
+//                .permitAll();
         http.addFilter(configAutenticacionFilter);
-//        http.addFilterBefore(new ConfigAutorizacionFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new ConfigAutorizacionFilter(), UsernamePasswordAuthenticationFilter.class);
     }
     @Bean
     @Override
