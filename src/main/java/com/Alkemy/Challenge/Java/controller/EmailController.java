@@ -1,5 +1,6 @@
 package com.Alkemy.Challenge.Java.controller;
 
+import com.Alkemy.Challenge.Java.email.EmailRequest;
 import com.Alkemy.Challenge.Java.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

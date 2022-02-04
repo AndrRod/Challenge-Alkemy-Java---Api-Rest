@@ -49,10 +49,10 @@ public class UsuarioController {
     @PostMapping("/register")
     public ResponseEntity<?> guardarUsuario(@Valid @RequestBody Usuario usuario){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/guardar").toUriString());
-        emailService.sendEmail(usuario.getEmail());
+//        emailService.sendEmail(usuario.getEmail());
         return ResponseEntity.created(uri).body(usuarioService.guardarUsuario(usuario));
     }
-//QUEDA PENDIENTE ARREGLAR E IMPLEMENTAR
+//QUEDA PENDIENTE ARREGLAR e iMPLEMENTAR
     @PostMapping("/rol/guardar")
     public ResponseEntity<Rol> guardarRol(@RequestBody Rol rol){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/rol/guardar").toUriString());
