@@ -14,16 +14,12 @@ import javax.persistence.Id;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.Date;
-
-public class PeliculaDto {
-
+import java.io.Serializable;
+public class PeliculaDto implements Serializable {
     @Getter @Setter
     private String imagen;
-
     @Getter @Setter
     private String titulo;
-
-
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     @Getter @Setter @Column(name = "fechaCreacion")
     private Date fechaDeCreación;
@@ -34,7 +30,6 @@ public class PeliculaDto {
         this.titulo = titulo;
     }
     public PeliculaDto(){}
-
     public static PeliculaDto peliculaADto(Pelicula pelicula){
         PeliculaDto dto = new PeliculaDto();
         dto.setImagen(pelicula.getImagen());

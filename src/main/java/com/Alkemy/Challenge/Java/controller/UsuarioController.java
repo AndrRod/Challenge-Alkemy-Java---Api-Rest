@@ -62,7 +62,13 @@ public class UsuarioController {
 //    QUEDA PENDIENTE DAR FUNCIONALIDAD A LOS ROLES POR USUARIO
     @PostMapping("rol/agregarAUsuario")
     public ResponseEntity<?> agregarRolAUsuario(@RequestBody RoleToUserForm form){
+        // try{
+        //     System.out.println("ESCRITURA EN CONSOLA" + form);       
         usuarioService.agregarRolAUsuario(form.getUsername(), form.getRoleNombre());
+        // }catch(Exception e){
+        // System.out.println("ESCRITURA EN CONSOLA" + form);        
+        //     return new ResponseEntity<>("error" + form + e.getMessage(), HttpStatus.BAD_REQUEST);
+        // }
         return  ResponseEntity.ok().build();
     }
 

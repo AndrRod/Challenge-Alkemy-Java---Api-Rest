@@ -42,10 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.authorizeRequests().antMatchers(POST, "/auth/usuarios", "/auth/rol/**").hasAnyAuthority("ROL_ADMIN");
 //        http.authorizeRequests().antMatchers(GET, "/**").hasAnyAuthority("ROL_ADMIN");
         http.authorizeRequests().anyRequest()
-                .authenticated();
-//                .permitAll();
+                // .authenticated();
+                .permitAll();
         http.addFilter(configAutenticacionFilter);
-        http.addFilterBefore(new ConfigAutorizacionFilter(), UsernamePasswordAuthenticationFilter.class);
+        // http.addFilterBefore(new ConfigAutorizacionFilter(), UsernamePasswordAuthenticationFilter.class);
     }
     @Bean
     @Override
