@@ -204,7 +204,11 @@ Ejemplo:
 
 Fueron documentados los endpoints utilizando Postman, el archivo json correspondiente al mismo fue agregado al proyecto con el nombre: Coleccion Alkemi Challenge.postman_collection.json
 
-## 14 PENDIENTES:
+## 14
+
+- Tests verificando posibles erroes usando herramientas como JUnit. Estoy intentando realizar testing sobre los metodos creados en capa repository. 
+
+## 15 PENDIENTES:
 
 - CREAR ROLES Y AGREGARLOS A USUARIOS: De manera que el usuario puede realizar determinada tarea según su rol.
-- Tests verificando posibles erroes usando herramientas como JUnit y Mockito
+

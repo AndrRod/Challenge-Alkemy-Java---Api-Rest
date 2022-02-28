@@ -29,7 +29,7 @@ public class EmailService {
 //                new Email(emailRequest.getTo()),
 //                new Content("text/plain", emailRequest.getBody()));
 
-        mail.setReplyTo(new Email("rodrigueza.federacion@gmail.com"));
+    mail.setReplyTo(new Email("rodrigueza.federacion@gmail.com"));
     Request request = new Request();
     Response response = null;
     try {

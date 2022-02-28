@@ -36,6 +36,4 @@ public class Usuario implements Serializable {
     @Getter @Setter
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Rol> roles = new ArrayList<>();
-
-
 }

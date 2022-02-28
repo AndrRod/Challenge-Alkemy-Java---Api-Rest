@@ -5,10 +5,13 @@ import com.sendgrid.SendGrid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+
 
 @Configuration
+@PropertySource("classpath:aplication.properties")
 public class SendGridConfig {
-    @Value("${sendgrid.api.key}")
+    @Value("${api.key}")
     private String key;
 
     @Bean

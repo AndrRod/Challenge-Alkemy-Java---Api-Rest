@@ -3,6 +3,7 @@ package com.Alkemy.Challenge.Java.controller;
 import com.Alkemy.Challenge.Java.entity.Rol;
 import com.Alkemy.Challenge.Java.entity.Usuario;
 
+
 import com.Alkemy.Challenge.Java.service.EmailService;
 import com.Alkemy.Challenge.Java.service.UsuarioService;
 import com.auth0.jwt.JWT;
@@ -49,7 +50,7 @@ public class UsuarioController {
     @PostMapping("/register")
     public ResponseEntity<?> guardarUsuario(@Valid @RequestBody Usuario usuario){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/guardar").toUriString());
-//        emailService.sendEmail(usuario.getEmail());
+        emailService.sendEmail(usuario.getEmail());
         return ResponseEntity.created(uri).body(usuarioService.guardarUsuario(usuario));
     }
 //QUEDA PENDIENTE ARREGLAR e iMPLEMENTAR
