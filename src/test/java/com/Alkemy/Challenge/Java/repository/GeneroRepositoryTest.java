@@ -1,19 +1,12 @@
-package com.Alkemy.Challenge.Java.Genero;
+package com.Alkemy.Challenge.Java.repository;
 
 import com.Alkemy.Challenge.Java.entity.Genero;
-import com.Alkemy.Challenge.Java.repository.GeneroRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.apache.logging.log4j.ThreadContext.isEmpty;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
-
 
 @DataJpaTest
 class GeneroRepositoryTest {
