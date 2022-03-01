@@ -2,6 +2,7 @@ package com.Alkemy.Challenge.Java.service;
 
 import com.Alkemy.Challenge.Java.entity.Rol;
 import com.Alkemy.Challenge.Java.entity.Usuario;
+import com.Alkemy.Challenge.Java.exception.BadRequestException;
 import com.Alkemy.Challenge.Java.repository.RolRepository;
 import com.Alkemy.Challenge.Java.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,12 +38,18 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         }
         Collection<SimpleGrantedAuthority> autorizaciones = new ArrayList<>();
         usuario.getRoles().forEach(role -> {
-            autorizaciones.add(new SimpleGrantedAuthority(role.getNombre()));
+            autorizaciones.add(new SimpleGrantedAuthority(role.getNombre().toString()));
         });
         return new org.springframework.security.core.userdetails.User(usuario.getUsername(), usuario.getContrasenia(), autorizaciones);
     }
     @Override
     public Usuario guardarUsuario(Usuario usuario) {
+        if(usuarioRepository.existByEmail(usuario.getEmail())){
+            throw new BadRequestException("El usuario con el email" + usuario.getEmail() + " ya se encuentra registrado");
+        }
+        if(usuarioRepository.existByUsername(usuario.getUsername())){
+            throw new BadRequestException("El usuario con el nombre el username" + usuario.getUsername() + " ya se encuentra registrado");
+        }
         log.info("guardar nuevo usuario {} en la base de datos", usuario.getUsername());
         usuario.setContrasenia(passwordEncoder.encode(usuario.getContrasenia()));
         return usuarioRepository.save(usuario);

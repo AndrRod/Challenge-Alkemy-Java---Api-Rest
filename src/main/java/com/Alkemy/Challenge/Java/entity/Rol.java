@@ -10,7 +10,6 @@ public class Rol {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter @Setter
     private Long id;
-
 //     @Enumerated(EnumType.STRING)
 //     @Setter @Getter
 //     public RolEnum nombre;

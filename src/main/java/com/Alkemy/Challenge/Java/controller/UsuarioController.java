@@ -49,9 +49,13 @@ public class UsuarioController {
 
     @PostMapping("/register")
     public ResponseEntity<?> guardarUsuario(@Valid @RequestBody Usuario usuario){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/guardar").toUriString());
-        emailService.sendEmail(usuario.getEmail());
-        return ResponseEntity.created(uri).body(usuarioService.guardarUsuario(usuario));
+        try{
+            URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/guardar").toUriString());
+//        emailService.sendEmail(usuario.getEmail());
+            return ResponseEntity.created(uri).body(usuarioService.guardarUsuario(usuario));
+        }catch (Exception e){
+            return new ResponseEntity<>("No pudo guardarse el usuario por el siguiente error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 //QUEDA PENDIENTE ARREGLAR e iMPLEMENTAR
     @PostMapping("/rol/guardar")
