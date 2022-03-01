@@ -7,6 +7,7 @@ Desarrollar una API para explorar el mundo de Disney, la cual permitirá conocer
 - 👉 No es necesario armar el Frontend
 - 👉 Las rutas deberán seguir el patrón REST
 - 👉 Utilizar la librería Spring Security
+- 👉 Testing (JUnit y Mockito)
 
 ### Requerimientos técnicos
 ## 1. Modelado de Base de Datos
