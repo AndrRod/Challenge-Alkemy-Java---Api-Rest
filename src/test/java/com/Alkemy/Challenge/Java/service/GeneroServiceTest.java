@@ -1,23 +1,26 @@
 package com.Alkemy.Challenge.Java.service;
 
 import com.Alkemy.Challenge.Java.entity.Genero;
+import com.Alkemy.Challenge.Java.exception.BadRequestException;
 import com.Alkemy.Challenge.Java.repository.GeneroRepository;
-import org.junit.Before;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class GeneroServiceTest {
@@ -55,6 +58,7 @@ class GeneroServiceTest {
         //        given
         Genero genero = new Genero(
                 "http//dirimagen.com", "terror");
+
 //        when
         underTest.guardarGenero(genero);
 //        then
@@ -69,6 +73,29 @@ class GeneroServiceTest {
 
         assertThat(capturaGenero).isEqualTo(genero);
 //        hace una comparacion entre el genero ingresado al service y el ingresado al repository.save()
+    }
+
+    @Test
+    void trhowGeneroExistente() {
+//        given
+        Genero genero = new Genero(
+                "http//dirimagen.com", "terror");
+
+        //        assertThatThrownBy(()-> underTest.generoExistente(genero.getNombre()))
+
+//        when
+
+        System.out.println(generoRepository.existsByNombre(genero.getNombre()));
+
+//        when(generoRepository.existsByNombre(genero.getNombre())).thenReturn(true);
+        given(generoRepository.existsByNombre(genero.getNombre())).willReturn(true);
+
+//        then
+        assertThatThrownBy(()-> underTest.guardarGenero(genero))
+                .isInstanceOf(BadRequestException.class)
+                .hasMessageContaining("Genero "+ genero.getNombre() + " ya existe en la base de datos");
+
+//        verify(generoRepository, never()).save(any());
     }
 
 }

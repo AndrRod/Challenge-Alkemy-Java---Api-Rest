@@ -23,7 +23,7 @@ class GeneroRepositoryTest {
     void existByNombre() {
 //        give
         Genero genero = new Genero(
-                "http//dirimagen.com", "terror");
+                "http//dirimagen.co m", "terror");
         underTest.save(genero);
         String nombre = "terror";
 //        when
@@ -39,9 +39,36 @@ class GeneroRepositoryTest {
         String nombre = "terror";
 //        when
         Genero resultados = underTest.findByNombre(nombre);
-        System.out.println("RESULTADO: no se hay usuario por nombre de GENERO y es igual a null (" + resultados + ")");
+        System.out.println("RESULTADO: no se hay usuario por nombre de GENERO INGRESADO y es igual a null (" + resultados + ")");
         Boolean existe = resultados != null;
 //        then
         assertThat(existe).isFalse();
+    }
+
+    @Test
+    void findTrueByNombre() {
+        //        give
+        Genero genero = new Genero(
+                "http//dirimagen.com", "terror");
+        underTest.save(genero);
+//        when
+//        Boolean resultados = underTest.findTrueByNombre(genero.getNombre());
+        Boolean resultados = underTest.existsByNombre(genero.getNombre());
+        System.out.println("RESULTADO: usuario por nombre de GENERO ---" + genero.getNombre() + ", resultado: " + resultados);
+    //        then
+        assertThat(resultados).isTrue();
+    }
+
+    @Test
+    void findFalseByNombre() {
+        //        give
+        Genero genero = new Genero(
+                "http//dirimagen.com", "terror");
+//        when
+//        Boolean resultados = underTest.findTrueByNombre(genero.getNombre());
+        Boolean resultados = underTest.existsByNombre(genero.getNombre());
+        System.out.println("RESULTADO: usuario por nombre de GENERO ---" + genero.getNombre() + ", resultado: " + resultados);
+        //        then
+        assertThat(resultados).isFalse();
     }
 }

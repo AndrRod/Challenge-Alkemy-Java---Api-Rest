@@ -16,7 +16,7 @@ public class Genero {
     private Long id;
     @Getter @Setter
     private String imagen;
-    @Getter @Setter
+    @Getter @Setter @Column(unique = true)
     @NotBlank(message = "no debe estar en blanco.")
     private String nombre;
 //    //asociar con otra tabla

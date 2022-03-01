@@ -2,6 +2,7 @@ package com.Alkemy.Challenge.Java.controller;
 
 import com.Alkemy.Challenge.Java.entity.Genero;
 import com.Alkemy.Challenge.Java.entity.Pelicula;
+import com.Alkemy.Challenge.Java.exception.BadRequestException;
 import com.Alkemy.Challenge.Java.service.GeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class GeneroController {
     @PostMapping
     public ResponseEntity<?> crearGenero(@Valid @RequestBody Genero genero){
         try{
-            generoService.crearGenero(genero);
+            generoService.guardarGenero(genero);
             return ResponseEntity.status(HttpStatus.CREATED).body(genero);
         }catch(Exception e){
             return new ResponseEntity<>("Hubo un error al crear el genero: " + e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -60,7 +61,7 @@ public class GeneroController {
         gen.get().setImagen(genero.getImagen());
 
         try{
-            generoService.crearGenero(gen.get());
+            generoService.guardarGenero(gen.get());
             return new ResponseEntity<>(gen.get(), HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<>("Error al intentar modificar el genero", HttpStatus.BAD_REQUEST);
