@@ -206,7 +206,7 @@ Fueron documentados los endpoints utilizando Postman, el archivo json correspond
 
 ## 14 TESTS
 
-- Tests verificando posibles erroes usando herramientas como JUnit y Mockito. Estoy intentando realizar testing sobre los metodos creados en capa repository y service. 
+- Tests verificando posibles erroes usando herramientas como JUnit y Mockito. REPOSITORY Y SERVICE: Testeado totalmente capas correspondientes a Genero. 
 
 ## 15 PENDIENTES:
 

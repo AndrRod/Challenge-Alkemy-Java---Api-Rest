@@ -45,14 +45,6 @@ class GeneroServiceTest {
 //        porque el mock fue invocado en findAll()
 //        verify(generoRepository).deleteAll();
     }
-
-//    anotación Disable: para que no corran.
-    @Test
-    @Disabled
-    void borrarGenero() {
-
-    }
-
     @Test
     void crearGenero() {
         //        given
@@ -76,26 +68,54 @@ class GeneroServiceTest {
     }
 
     @Test
-    void trhowGeneroExistente() {
+    void trhowWhenGeneroExists() {
 //        given
         Genero genero = new Genero(
                 "http//dirimagen.com", "terror");
 
-        //        assertThatThrownBy(()-> underTest.generoExistente(genero.getNombre()))
+//        when(generoRepository.existsByNombre(genero.getNombre())).thenReturn(true);
+//        given toma el valor del repository y lo retorna en true para poder recrear la excepcion
+        given(generoRepository.existsByNombre(genero.getNombre()))
+                .willReturn(true);
 
 //        when
-
-        System.out.println(generoRepository.existsByNombre(genero.getNombre()));
-
-//        when(generoRepository.existsByNombre(genero.getNombre())).thenReturn(true);
-        given(generoRepository.existsByNombre(genero.getNombre())).willReturn(true);
-
 //        then
+//        lanza la excepción, el tipo de excepcion (instanciaOf) y el tipo de mensaje (hasMessagecontaing) el cual tiene que ser exacto al que se muestra en capa Service
         assertThatThrownBy(()-> underTest.guardarGenero(genero))
                 .isInstanceOf(BadRequestException.class)
                 .hasMessageContaining("Genero "+ genero.getNombre() + " ya existe en la base de datos");
 
-//        verify(generoRepository, never()).save(any());
+//        aca estamos pidiendo que se verifique en el repositorio que nunca (never) se guarde nada (save(any()))
+        verify(generoRepository, never()).save(any());
     }
 
+    //    anotación Disable: para que no corran.
+    @Test
+    void borrarGenero() {
+//        given
+        Genero genero = new Genero(
+                "http//dirimagen.com", "terror");
+//        when
+        underTest.borrarGenero(genero.getId());
+        generoRepository.delete(genero);
+//        then
+        ArgumentCaptor<Genero> generoArgumentCaptor =
+                ArgumentCaptor.forClass(Genero.class);
+        verify(generoRepository)
+                .delete(generoArgumentCaptor.capture());
+
+        Genero capturaGenero = generoArgumentCaptor.getValue();
+
+        assertThat(capturaGenero).isEqualTo(genero);
+    }
+
+    @Test
+    void buscarGeneroPorId() {
+//        give
+        Long id = 1L;
+//        when
+        underTest.buscarGeneroPorId(id);
+//        then
+        verify(generoRepository).findById(id);
+    }
 }

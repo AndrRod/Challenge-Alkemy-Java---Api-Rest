@@ -30,10 +30,9 @@ public class GeneroService {
         log.info("guardado nuevo genero {} en la base de datos", genero.getNombre());
         return generoRepository.save(genero);
     }
-
+}
 //    FUNCION ALTERNATIVA PARA DEVOLVER BOOLEANO SI EXISTE GENERO EN BD
 //    public Boolean generoExistente(String genero){
 //        return generoRepository.findAll().stream()
 //                .anyMatch(genero1 -> genero1.getNombre().equals(genero));
 //    }
-}
