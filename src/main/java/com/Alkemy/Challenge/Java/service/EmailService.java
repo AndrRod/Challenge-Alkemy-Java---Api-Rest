@@ -18,11 +18,12 @@ public class EmailService {
     @Autowired
     SendGrid sendGrid;
 
-    public Response sendEmail(String email) {
+    public Response sendEmail(String email, String mensaje) {
     Mail mail = new Mail(new Email("rodrigueza.federacion@gmail.com"),
             "Saludos, Challenge Alkemy",
             new Email(email),
             new Content("text/plain", "Te quiero saludar y felicitar por registrarte"));
+//            new Content("text/plain", "Te quiero saludar y felicitar por registrarte"));
 
 //        Mail mail = new Mail(new Email("rodrigueza.federacion@gmail.com"),
 //                emailRequest.getSubject(),
@@ -39,8 +40,7 @@ public class EmailService {
         response = this.sendGrid.api(request);
 
     }catch (IOException ex){
-        System.out.println(ex.getMessage());
-    }
+        System.out.println(ex.getMessage());    }
 //        System.out.println(response.getStatusCode());
 //        System.out.println(response.getBody());
 //        System.out.println(response.getHeaders());

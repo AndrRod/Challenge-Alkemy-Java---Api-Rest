@@ -51,7 +51,8 @@ public class UsuarioController {
     public ResponseEntity<?> guardarUsuario(@Valid @RequestBody Usuario usuario){
         try{
             URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/guardar").toUriString());
-//        emailService.sendEmail(usuario.getEmail());
+//            DESCOMENTAR LA LINEA SIGUIENTE PARA EL ENVIO DE CORREOS (SENDGRID)
+//            emailService.sendEmail(usuario.getEmail(), "Gracias por registrarte y formar parte de este Challenge");
             return ResponseEntity.created(uri).body(usuarioService.guardarUsuario(usuario));
         }catch (Exception e){
             return new ResponseEntity<>("No pudo guardarse el usuario por el siguiente error: " + e.getMessage(), HttpStatus.BAD_REQUEST);

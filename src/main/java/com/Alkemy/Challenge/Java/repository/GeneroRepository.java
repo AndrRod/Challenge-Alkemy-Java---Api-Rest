@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface GeneroRepository extends JpaRepository<Genero, Long> {
     Genero findByNombre(String nombre);
 
-    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Genero c WHERE c.nombre = :nombre")
+//    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Genero c WHERE c.nombre = :nombre")
     Boolean existsByNombre(@Param("nombre") String nombre);
 
 }
