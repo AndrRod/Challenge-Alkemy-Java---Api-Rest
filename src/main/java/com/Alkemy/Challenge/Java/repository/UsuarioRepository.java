@@ -6,13 +6,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Usuario findByUsername(String username);
-//    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Usuario c WHERE c.email = :email")
+    @Query("SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Usuario c WHERE c.email = :email")
     Boolean existByEmail(@Param("email") String email);
-//    @Query("SELECT CASE WHEN COUNT(c" +
-//            ") > 0 THEN true ELSE false END FROM Usuario c WHERE c.username = :username")
+
+    @Query("SELECT CASE WHEN COUNT(c" +
+            ") > 0 THEN true ELSE false END FROM Usuario c WHERE c.username = :username")
     Boolean existByUsername(@Param("username") String username);
+
+
 }

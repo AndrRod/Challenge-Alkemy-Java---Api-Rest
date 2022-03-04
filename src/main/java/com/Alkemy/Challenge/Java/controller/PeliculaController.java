@@ -8,6 +8,9 @@ import com.Alkemy.Challenge.Java.service.GeneroService;
 import com.Alkemy.Challenge.Java.service.PeliculaService;
 import com.Alkemy.Challenge.Java.service.PersonajeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +33,9 @@ public class PeliculaController {
     @Autowired
     private GeneroService generoService;
 
-    @GetMapping(value = "/movies/")
-    public ResponseEntity<?> obtenerPeliculas(){
-        List<Pelicula> peliculas = peliculaService.listadoPeliculas();
+    @GetMapping(value = "/movies/{cantPag}")
+    public ResponseEntity<?> obtenerPeliculas(@PathVariable(value = "cantPag") int cantPag){
+        Page<Pelicula> peliculas = peliculaService.listadoPeliculas(cantPag);
         List<PeliculaDto> listaDtosPeliculas = new ArrayList<>();
         if(!peliculas.isEmpty()) {
             for (Pelicula p : peliculas) listaDtosPeliculas.add(PeliculaDto.peliculaADto(p));

@@ -7,6 +7,10 @@ import com.Alkemy.Challenge.Java.repository.PersonajeRepository;
 import com.Alkemy.Challenge.Java.repository.RolRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +28,11 @@ public class PeliculaService {
     @Autowired
     PersonajeRepository personajeRepository;
 
+//    public Page<Pelicula> getAll(Pageable pageable) {
+//        return peliculaRepository.findAll(pageable);
+//    }
 
-    public List<Pelicula> listadoPeliculas (){return peliculaRepository.findAll();}
+    public Page<Pelicula> listadoPeliculas (int cantPag){return peliculaRepository.findAll(PageRequest.of(0, cantPag));}
 
     public Optional<Pelicula> detallePelicula(Long idPelicula){return peliculaRepository.findById(idPelicula);}
 

@@ -45,10 +45,10 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
     @Override
     public Usuario guardarUsuario(Usuario usuario) {
         if(usuarioRepository.existByEmail(usuario.getEmail())){
-            throw new BadRequestException("El usuario con el email" + usuario.getEmail() + " ya se encuentra registrado");
+            throw new BadRequestException("El usuario con el email " + usuario.getEmail() + " ya se encuentra registrado");
         }
         if(usuarioRepository.existByUsername(usuario.getUsername())){
-            throw new BadRequestException("El usuario con el nombre el username" + usuario.getUsername() + " ya se encuentra registrado");
+            throw new BadRequestException("El usuario con el nombre el username " + usuario.getUsername() + " ya se encuentra registrado");
         }
         log.info("guardar nuevo usuario {} en la base de datos", usuario.getUsername());
         usuario.setContrasenia(passwordEncoder.encode(usuario.getContrasenia()));
