@@ -4,6 +4,7 @@ import com.Alkemy.Challenge.Java.dtos.PersonajeDto;
 import com.Alkemy.Challenge.Java.entity.Personaje;
 import com.Alkemy.Challenge.Java.service.PersonajeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,17 @@ public class PersonajeController {
         }
         //return ResponseEntity.ok(personajes);
         return new ResponseEntity<>("No existe ningún personaje agregado", HttpStatus.NOT_FOUND);
+    }
+    @GetMapping(value = "/characters/{page}/{size}/{sort}")
+    public ResponseEntity<?> obtenerTodosPersonajesPaginacion(@PathVariable int page, @PathVariable int size, @PathVariable String sort){
+        try {
+            Page<Personaje> personajes = personajeService.listadoPersonajesPaginacion(page, size, sort);
+            List<PersonajeDto> listaDtosPersonaje = new ArrayList<>();
+            for (Personaje s : personajes) listaDtosPersonaje.add(PersonajeDto.personajeADto(s));
+            return ResponseEntity.ok(listaDtosPersonaje);
+        }catch (Exception e){
+            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
     @PostMapping(value = "/crearPersonaje")
     public ResponseEntity<?> crearPersonaje(@Valid @RequestBody Personaje personaje){

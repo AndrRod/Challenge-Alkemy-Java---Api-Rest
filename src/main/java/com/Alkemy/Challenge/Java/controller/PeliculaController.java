@@ -11,14 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("/")
@@ -33,9 +38,10 @@ public class PeliculaController {
     @Autowired
     private GeneroService generoService;
 
-    @GetMapping(value = "/movies/{cantPag}")
-    public ResponseEntity<?> obtenerPeliculas(@PathVariable(value = "cantPag") int cantPag){
-        Page<Pelicula> peliculas = peliculaService.listadoPeliculas(cantPag);
+    @GetMapping(value = "/movies/")
+    public ResponseEntity<?> obtenerPeliculas(){
+        List<Pelicula> peliculas = peliculaService.listadoPeliculas();
+
         List<PeliculaDto> listaDtosPeliculas = new ArrayList<>();
         if(!peliculas.isEmpty()) {
             for (Pelicula p : peliculas) listaDtosPeliculas.add(PeliculaDto.peliculaADto(p));
@@ -44,6 +50,18 @@ public class PeliculaController {
         //return ResponseEntity.ok(personajes);
         return new ResponseEntity<>("No existe ninguna pelicula agregada", HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping(value = "/movies/{page}/{size}/{sort}")
+    public ResponseEntity<?> obtenerPeliculasPaginacion(@PathVariable int page, @PathVariable int size, @PathVariable String sort){
+        Page<Pelicula> peliculas = peliculaService.listadoPeliculasPaginacion(page, size, sort);
+        List<PeliculaDto> listaDtosPeliculas = new ArrayList<>();
+        if(!peliculas.isEmpty()) {
+            for (Pelicula p : peliculas) listaDtosPeliculas.add(PeliculaDto.peliculaADto(p));
+            return ResponseEntity.ok(listaDtosPeliculas);
+        }
+        return new ResponseEntity<>("No existe ninguna pelicula agregada", HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping(value = "/detallePelicula/{id}")
     ResponseEntity<?> detallesPeliculaId(@PathVariable(value = "id") @Valid Long idPelicula){
         Optional<Pelicula> pelicula = peliculaService.detallePelicula(idPelicula);

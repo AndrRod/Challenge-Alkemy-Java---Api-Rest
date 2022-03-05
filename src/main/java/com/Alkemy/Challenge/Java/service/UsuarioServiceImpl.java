@@ -1,5 +1,6 @@
 package com.Alkemy.Challenge.Java.service;
 
+import com.Alkemy.Challenge.Java.entity.Pelicula;
 import com.Alkemy.Challenge.Java.entity.Rol;
 import com.Alkemy.Challenge.Java.entity.Usuario;
 import com.Alkemy.Challenge.Java.exception.BadRequestException;
@@ -7,6 +8,9 @@ import com.Alkemy.Challenge.Java.repository.RolRepository;
 import com.Alkemy.Challenge.Java.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -75,5 +79,11 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
     public List<Usuario> getUsuarios() {
         log.info("obteniendo a todos los usuarios");
         return usuarioRepository.findAll();
+    }
+
+
+    @Override
+    public Page<Usuario> getUsuarioPaginacion(int page, int size, String sort) {
+        return usuarioRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(sort)));
     }
 }

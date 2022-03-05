@@ -10,6 +10,7 @@ Desarrollar una API para explorar el mundo de Disney, la cual permitirá conocer
 - 👉 Testing (JUnit y Mockito)
 - 👉 Manejo de Excepciones (Carpeta exception)
 - 👉 Envio de Correos (SendGrid)
+- 👉 Paginación
 
 ### Requerimientos técnicos
 ## 1. Modelado de Base de Datos
@@ -37,6 +38,9 @@ Desarrollar una API para explorar el mundo de Disney, la cual permitirá conocer
 El usuario despues de registrarse y logearse, obteniene un token, el cual es necesario y requerido para acceder a los demás paths, una vez que pasa 10 minutos el token queda desactualizado o vencido, lo que obliga a que el usuario vuelva a generarlo mediante un nuevo login.
 Para desactivar el pedido de token y login en los paths es necesario comentar la linea 45 y 48 de la clase llamada SecurityConfig (.authenticated();) y sacar el comentario a la linea 46 del mismo (.permitAll();)
 
+
+
+
 ### POST (registro)
 	http://localhost:8080/auth/register
 
@@ -59,6 +63,13 @@ Ejemplo de path usando el token generado por el login:
 
 ![img_1.png](img_1.png)
 
+### GET USUARIOS
+
+	http://localhost:8080/auth/usuarios/
+
+### GET (PAGINACIÓN)
+
+    http://localhost:8080/auth/usuarios/{page}/{size}/{sort}
 
 
 ## 3. Listado de Personajes
@@ -67,6 +78,9 @@ Con el siguiente endpoint se muestra los personajes, pero solamente se filtra a 
 
 ### GET
 	http://localhost:8080/characters/
+
+### GET (PAGINACIÓN)
+    http://localhost:8080/characters/characters/{page}/{size}/{sort}
 
 ## 4. Personajes (CRUD)
 
@@ -119,7 +133,14 @@ Busqueda por Pelicula asociada:
 
 Muestra solamente a traves de un Dto los campos imagen, título y fecha de creación.
 
+### GET
+
     http://localhost:8080/movies/
+
+### GET (PAGINACIÓN)
+
+    http://localhost:8080/movies/{page}/{size}/{sort}
+
 
 ## 8. Detalle de Película / Serie con sus personajes
 

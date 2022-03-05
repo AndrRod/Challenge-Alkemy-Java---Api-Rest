@@ -5,6 +5,9 @@ import com.Alkemy.Challenge.Java.repository.PeliculaRepository;
 import com.Alkemy.Challenge.Java.repository.PersonajeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -26,6 +29,7 @@ public class PersonajeService {
     PeliculaRepository peliculaRepository;
 
     public List<Personaje> obtenerPersonajes(){ return personajeRepository.findAll();}
+    public Page<Personaje> listadoPersonajesPaginacion (int page, int size, String sort){return personajeRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(sort)));}
 
     public Personaje crearPersonaje(Personaje personaje){return personajeRepository.save(personaje);}
 

@@ -1,5 +1,8 @@
 package com.Alkemy.Challenge.Java.controller;
 
+import com.Alkemy.Challenge.Java.dtos.PeliculaDto;
+import com.Alkemy.Challenge.Java.dtos.UsuarioDto;
+import com.Alkemy.Challenge.Java.entity.Pelicula;
 import com.Alkemy.Challenge.Java.entity.Rol;
 import com.Alkemy.Challenge.Java.entity.Usuario;
 
@@ -15,6 +18,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import net.bytebuddy.implementation.bytecode.Throw;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -39,13 +44,29 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 public class UsuarioController {
-    private final UsuarioService usuarioService;
+
+    @Autowired
+    private final UsuarioService usuarioService = null;
     private final EmailService emailService;
 
     @GetMapping("/usuarios")
     public ResponseEntity<List<Usuario>> getUsuarios(){
         return ResponseEntity.ok().body(usuarioService.getUsuarios());
     }
+    @GetMapping(value = "/usuarios/{page}/{size}/{sort}")
+    public ResponseEntity<?> getUsuariosPaginacion(@PathVariable int page, @PathVariable int size, @PathVariable String sort){
+        try {
+            Page<Usuario> usuarios = usuarioService.getUsuarioPaginacion(page, size, sort);
+            List<UsuarioDto> listaUsuarios = new ArrayList<>();
+            for (Usuario usuario: usuarios){listaUsuarios.add(UsuarioDto.UsuarioDto(usuario));}
+            return ResponseEntity.ok(listaUsuarios);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
 
     @PostMapping("/register")
     public ResponseEntity<?> guardarUsuario(@Valid @RequestBody Usuario usuario){

@@ -32,7 +32,8 @@ public class PeliculaService {
 //        return peliculaRepository.findAll(pageable);
 //    }
 
-    public Page<Pelicula> listadoPeliculas (int cantPag){return peliculaRepository.findAll(PageRequest.of(0, cantPag));}
+    public List<Pelicula> listadoPeliculas (){return peliculaRepository.findAll();}
+    public Page<Pelicula> listadoPeliculasPaginacion (int page, int size, String sort){return peliculaRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(sort)));}
 
     public Optional<Pelicula> detallePelicula(Long idPelicula){return peliculaRepository.findById(idPelicula);}
 
