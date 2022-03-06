@@ -11,6 +11,7 @@ Desarrollar una API para explorar el mundo de Disney, la cual permitirá conocer
 - 👉 Manejo de Excepciones (Carpeta exception)
 - 👉 Envio de Correos (SendGrid)
 - 👉 Paginación
+- 👉 DTO (creación manual y por medio de Mapstruct)
 
 ### Requerimientos técnicos
 ## 1. Modelado de Base de Datos

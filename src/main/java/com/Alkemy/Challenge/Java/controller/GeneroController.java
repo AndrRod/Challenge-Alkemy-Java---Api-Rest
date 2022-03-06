@@ -40,7 +40,7 @@ public class GeneroController {
     @GetMapping(value = "/{id}")
     ResponseEntity<?> generoPorId(@PathVariable(value = "id") @Valid Long id){
         Optional<Genero> genero = generoService.buscarGeneroPorId(id);
-        if(genero.isEmpty()){return new ResponseEntity<>("No se encuentra ningún genero con el id: " + id, HttpStatus.NOT_FOUND);}
+        if(!genero.isPresent()){return new ResponseEntity<>("No se encuentra ningún genero con el id: " + id, HttpStatus.NOT_FOUND);}
         return ResponseEntity.ok(genero);
     }
 
@@ -56,7 +56,7 @@ public class GeneroController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> modifiacarGenero(@Valid @RequestBody Genero genero, @PathVariable(value = "id") @Valid Long idGenero) {
         Optional<Genero> gen = generoService.buscarGeneroPorId(idGenero);
-        if (!gen.isPresent()) {return new ResponseEntity<>("Error: no se cuentra ningun genero con el id ingresado: " + idGenero, HttpStatus.NOT_FOUND);}
+        if (gen.isEmpty()) {return new ResponseEntity<>("Error: no se cuentra ningun genero con el id ingresado: " + idGenero, HttpStatus.NOT_FOUND);}
         gen.get().setNombre(genero.getNombre());
         gen.get().setImagen(genero.getImagen());
 

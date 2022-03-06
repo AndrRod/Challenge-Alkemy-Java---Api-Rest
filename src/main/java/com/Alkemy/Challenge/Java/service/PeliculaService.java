@@ -5,6 +5,7 @@ import com.Alkemy.Challenge.Java.repository.GeneroRepository;
 import com.Alkemy.Challenge.Java.repository.PeliculaRepository;
 import com.Alkemy.Challenge.Java.repository.PersonajeRepository;
 import com.Alkemy.Challenge.Java.repository.RolRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import java.util.stream.Stream;
 @Transactional
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class PeliculaService {
     @Autowired
     PeliculaRepository peliculaRepository;
@@ -27,10 +29,6 @@ public class PeliculaService {
     GeneroRepository generoRepository;
     @Autowired
     PersonajeRepository personajeRepository;
-
-//    public Page<Pelicula> getAll(Pageable pageable) {
-//        return peliculaRepository.findAll(pageable);
-//    }
 
     public List<Pelicula> listadoPeliculas (){return peliculaRepository.findAll();}
     public Page<Pelicula> listadoPeliculasPaginacion (int page, int size, String sort){return peliculaRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(sort)));}

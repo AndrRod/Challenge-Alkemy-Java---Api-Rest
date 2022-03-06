@@ -1,9 +1,6 @@
 package com.Alkemy.Challenge.Java.entity;
 import com.fasterxml.jackson.annotation.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -14,7 +11,6 @@ import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-
 
 @Entity
 @NoArgsConstructor

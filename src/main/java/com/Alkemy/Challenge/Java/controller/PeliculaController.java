@@ -1,30 +1,26 @@
 package com.Alkemy.Challenge.Java.controller;
 
 import com.Alkemy.Challenge.Java.dtos.PeliculaDto;
+import com.Alkemy.Challenge.Java.mapper.PeliculaMap;
 import com.Alkemy.Challenge.Java.entity.Genero;
 import com.Alkemy.Challenge.Java.entity.Pelicula;
 import com.Alkemy.Challenge.Java.entity.Personaje;
 import com.Alkemy.Challenge.Java.service.GeneroService;
 import com.Alkemy.Challenge.Java.service.PeliculaService;
 import com.Alkemy.Challenge.Java.service.PersonajeService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/")
 public class PeliculaController {
@@ -35,33 +31,31 @@ public class PeliculaController {
     @Autowired
     private PersonajeService personajeService;
 
-    @Autowired
     private GeneroService generoService;
 
+    @Autowired
+    private PeliculaMap peliculaMap;
+    private PeliculaDto peliculaDto;
+
     @GetMapping(value = "/movies/")
+
     public ResponseEntity<?> obtenerPeliculas(){
         List<Pelicula> peliculas = peliculaService.listadoPeliculas();
-
-        List<PeliculaDto> listaDtosPeliculas = new ArrayList<>();
-        if(!peliculas.isEmpty()) {
-            for (Pelicula p : peliculas) listaDtosPeliculas.add(PeliculaDto.peliculaADto(p));
-            return ResponseEntity.ok(listaDtosPeliculas);
+        try{
+            return ResponseEntity.ok(peliculaMap.listPeliculaDto(peliculas));
+        }catch (Exception e){
+            return new ResponseEntity<>("ERROR: " +  e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        //return ResponseEntity.ok(personajes);
-        return new ResponseEntity<>("No existe ninguna pelicula agregada", HttpStatus.NOT_FOUND);
     }
-
     @GetMapping(value = "/movies/{page}/{size}/{sort}")
     public ResponseEntity<?> obtenerPeliculasPaginacion(@PathVariable int page, @PathVariable int size, @PathVariable String sort){
         Page<Pelicula> peliculas = peliculaService.listadoPeliculasPaginacion(page, size, sort);
-        List<PeliculaDto> listaDtosPeliculas = new ArrayList<>();
-        if(!peliculas.isEmpty()) {
-            for (Pelicula p : peliculas) listaDtosPeliculas.add(PeliculaDto.peliculaADto(p));
-            return ResponseEntity.ok(listaDtosPeliculas);
+        try{
+            return ResponseEntity.ok(peliculaMap.listPeliculaDto(peliculas.getContent()));
+        }catch (Exception e){
+            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("No existe ninguna pelicula agregada", HttpStatus.NOT_FOUND);
     }
-
     @GetMapping(value = "/detallePelicula/{id}")
     ResponseEntity<?> detallesPeliculaId(@PathVariable(value = "id") @Valid Long idPelicula){
         Optional<Pelicula> pelicula = peliculaService.detallePelicula(idPelicula);
@@ -72,9 +66,12 @@ public class PeliculaController {
     public ResponseEntity<?> crearPelicula(@Valid @RequestBody Pelicula pelicula){
         try{
             peliculaService.crearPelicula(pelicula);
-            return ResponseEntity.status(HttpStatus.CREATED).body(pelicula);
+            PeliculaDto pelicula1 = peliculaMap.toPeliculaDto(pelicula);
+            System.out.println("---- ");
+            System.out.println("---- " + pelicula1.getTitulo() + pelicula1.getFechaDeCreacion() + pelicula1.getImagen() + pelicula1.getClass());
+            return ResponseEntity.status(HttpStatus.CREATED).body(pelicula1);
         }catch(Exception e){
-            return new ResponseEntity<>("Hubo un error al crear la pelicula: ", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
     @DeleteMapping(value = "/eliminarPelicula/{id}")
