@@ -24,8 +24,7 @@ public class peliculaMapImpl implements PeliculaMap {
     }
     @Override
     public Pelicula toPelicula(PeliculaDto peliculaDto) {
-        Pelicula
-                pelicula  = new Pelicula ();
+        Pelicula pelicula  = new Pelicula ();
         pelicula.setImagen(peliculaDto.getImagen());
         pelicula.setFechaDeCreacion(peliculaDto.getFechaDeCreacion());
         pelicula.setTitulo(peliculaDto.getTitulo());

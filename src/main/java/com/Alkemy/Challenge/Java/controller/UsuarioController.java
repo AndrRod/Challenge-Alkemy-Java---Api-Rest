@@ -46,56 +46,38 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class UsuarioController {
 
     @Autowired
-    private final UsuarioService usuarioService = null;
+    private final UsuarioService usuarioService;
     private final EmailService emailService;
 
+    private UsuarioDto usuarioDto;
+
     @GetMapping("/usuarios")
-    public ResponseEntity<List<Usuario>> getUsuarios(){
-        return ResponseEntity.ok().body(usuarioService.getUsuarios());
+    public ResponseEntity<?> getUsuarios(){
+        List<Usuario> usuarioList = usuarioService.getUsuarios();
+        return ResponseEntity.ok().body(usuarioDto.ListaUsuarioDto(usuarioList));
     }
     @GetMapping(value = "/usuarios/{page}/{size}/{sort}")
     public ResponseEntity<?> getUsuariosPaginacion(@PathVariable int page, @PathVariable int size, @PathVariable String sort){
-        try {
             Page<Usuario> usuarios = usuarioService.getUsuarioPaginacion(page, size, sort);
             List<UsuarioDto> listaUsuarios = new ArrayList<>();
             for (Usuario usuario: usuarios){listaUsuarios.add(UsuarioDto.UsuarioDto(usuario));}
             return ResponseEntity.ok(listaUsuarios);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>("Error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-
     }
-
-
     @PostMapping("/register")
-    public ResponseEntity<?> guardarUsuario(@Valid @RequestBody Usuario usuario){
-        try{
+    public ResponseEntity<?> guardarUsuario(@Valid @RequestBody Usuario usuario) {
             URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/guardar").toUriString());
 //            DESCOMENTAR LA LINEA SIGUIENTE PARA EL ENVIO DE CORREOS (SENDGRID)
 //            emailService.sendEmail(usuario.getEmail(), "Gracias por registrarte y formar parte de este Challenge");
             return ResponseEntity.created(uri).body(usuarioService.guardarUsuario(usuario));
-        }catch (Exception e){
-            return new ResponseEntity<>("No pudo guardarse el usuario por el siguiente error: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
     }
-//QUEDA PENDIENTE ARREGLAR e iMPLEMENTAR
     @PostMapping("/rol/guardar")
     public ResponseEntity<Rol> guardarRol(@RequestBody Rol rol){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/auth/rol/guardar").toUriString());
         return ResponseEntity.created(uri).body(usuarioService.guardarRol(rol));
     }
-
-//    QUEDA PENDIENTE DAR FUNCIONALIDAD A LOS ROLES POR USUARIO
     @PostMapping("rol/agregarAUsuario")
     public ResponseEntity<?> agregarRolAUsuario(@RequestBody RoleToUserForm form){
-        // try{
-        //     System.out.println("ESCRITURA EN CONSOLA" + form);       
-        usuarioService.agregarRolAUsuario(form.getUsername(), form.getRoleNombre());
-        // }catch(Exception e){
-        // System.out.println("ESCRITURA EN CONSOLA" + form);        
-        //     return new ResponseEntity<>("error" + form + e.getMessage(), HttpStatus.BAD_REQUEST);
-        // }
+        usuarioService.agregarRolAUsuario(form.getUsername(), form.getRol());
         return  ResponseEntity.ok().build();
     }
 
@@ -134,9 +116,10 @@ public class UsuarioController {
 //
 //        }
     }
-    @Data
-    class RoleToUserForm{
-        private String username;
-        private String roleNombre;
-    }
+
+}
+@Data
+class RoleToUserForm{
+    private String username;
+    private String rol;
 }

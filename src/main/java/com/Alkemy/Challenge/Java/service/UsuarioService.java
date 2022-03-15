@@ -14,7 +14,7 @@ import java.util.List;
 public interface UsuarioService{
     Usuario guardarUsuario(Usuario usuario);
     Rol guardarRol (Rol rol);
-    void agregarRolAUsuario(String username, String nombre);
+    void agregarRolAUsuario(String username, String roleName);
     Usuario getUsuario(String username);
     List<Usuario> getUsuarios();
     Page<Usuario> getUsuarioPaginacion (int page, int size, String sort);

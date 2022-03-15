@@ -32,7 +32,6 @@ public class Usuario implements Serializable {
     @Getter @Setter
     @NotBlank(message = "no debe estar en blanco.")
     private String contrasenia;
-     
     @Getter @Setter
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Rol> roles = new ArrayList<>();

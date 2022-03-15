@@ -14,5 +14,6 @@ public class Rol {
 //     @Setter @Getter
 //     public RolEnum nombre;
     @Setter @Getter
+    @Column(unique = true)
     private String nombre;
 }
