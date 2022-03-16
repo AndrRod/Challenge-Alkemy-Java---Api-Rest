@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-//implements Serializable
 @Table
 @Entity @Data @NoArgsConstructor @AllArgsConstructor
 public class Usuario implements Serializable {
@@ -22,7 +21,7 @@ public class Usuario implements Serializable {
     @Getter @Setter
     private String nombreCompleto;
 
-    @Email(regexp = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", message="no cumple con los requisitos")
+    @Email(regexp = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", message="No cumple con los requisitos de email valido")
     @Getter @Setter @Column(unique = true)
     @NotBlank(message = "no debe estar en blanco.")
     private String email;

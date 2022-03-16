@@ -5,11 +5,12 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 
 @Entity
 @Table
-public class Genero {
+public class Genero implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter @Setter
@@ -19,9 +20,7 @@ public class Genero {
     @Getter @Setter @Column(unique = true)
     @NotBlank(message = "no debe estar en blanco.")
     private String nombre;
-//    //asociar con otra tabla
-//    @Getter @Setter
-//    private String peliculas;
+
     public Genero(String imagen, String nombre){
         this.imagen = imagen;
         this.nombre = nombre;

@@ -183,8 +183,14 @@
 			<version>RELEASE</version>
 			<scope>compile</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.typelevel</groupId>
+            <artifactId>unique_3</artifactId>
+            <version>2.1.5</version>
+            <scope>compile</scope>
+        </dependency>
 
-</dependencies>
+    </dependencies>
 
 
 	<build>

@@ -47,7 +47,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         }
         Collection<SimpleGrantedAuthority> autorizaciones = new ArrayList<>();
         usuario.getRoles().forEach(role -> {
-            autorizaciones.add(new SimpleGrantedAuthority(role.getNombre()));
+            autorizaciones.add(new SimpleGrantedAuthority(role.getNombre().toString()));
         });
         return new org.springframework.security.core.userdetails.User(usuario.getUsername(), usuario.getContrasenia(), autorizaciones);
     }

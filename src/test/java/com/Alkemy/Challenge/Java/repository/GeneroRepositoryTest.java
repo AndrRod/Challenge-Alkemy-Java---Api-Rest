@@ -22,8 +22,7 @@ class GeneroRepositoryTest {
     @Test
     void existByNombre() {
 //        give
-        Genero genero = new Genero(
-                "http//dirimagen.co m", "terror");
+        Genero genero = new Genero("http//dirimagen.com", "terror");
         underTest.save(genero);
         String nombre = "terror";
 //        when

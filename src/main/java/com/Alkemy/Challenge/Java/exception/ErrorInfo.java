@@ -7,7 +7,7 @@ public class ErrorInfo {
     private String message;
     @JsonProperty("status_code")
     private int statusCode;
-    @JsonProperty("uri")
+    @JsonProperty("url")
     private String uriRequested;
 
     public ErrorInfo(int statusCode, String message, String uriRequested) {

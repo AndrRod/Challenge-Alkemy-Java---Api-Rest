@@ -1,6 +1,7 @@
 package com.Alkemy.Challenge.Java.service;
 import com.Alkemy.Challenge.Java.entity.Pelicula;
 import com.Alkemy.Challenge.Java.entity.Personaje;
+import com.Alkemy.Challenge.Java.exception.NotFoundException;
 import com.Alkemy.Challenge.Java.repository.PeliculaRepository;
 import com.Alkemy.Challenge.Java.repository.PersonajeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -28,16 +29,29 @@ public class PersonajeService {
     @Autowired
     PeliculaRepository peliculaRepository;
 
-    public List<Personaje> obtenerPersonajes(){ return personajeRepository.findAll();}
-    public Page<Personaje> listadoPersonajesPaginacion (int page, int size, String sort){return personajeRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(sort)));}
+    public List<Personaje> obtenerPersonajes(){
+        List<Personaje> list = personajeRepository.findAll();
+        if(list.isEmpty()) throw new NotFoundException("ningun personaje agregado");
+        return list;
+    }
+    public Page<Personaje> listadoPersonajesPaginacion (int page, int size, String sort){
+        Page<Personaje> page1 = personajeRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(sort)));
+        if(page1.isEmpty()) throw new NotFoundException("ningun personaje agregado o encontrado");
+        return page1;}
 
     public Personaje crearPersonaje(Personaje personaje){return personajeRepository.save(personaje);}
 
-    public void borrarPersonaje(Long id){personajeRepository.deleteById(id);}
+    public void borrarPersonaje(Long id){
+        personajeRepository.deleteById(id);
+    }
+    public Optional<Personaje> buscarPersonajePorId(Long id){
+        personajeRepository.findById(id).orElseThrow(() -> new NotFoundException("personaje inexsistente"));
+        return personajeRepository.findById(id);}
 
-    public Optional<Personaje> buscarPersonajePorId(Long id){ return personajeRepository.findById(id);}
-
-    public List<Personaje> buscarPersonajePorNombre(String nombre){ return personajeRepository.findAll().stream().filter(p-> {return p.getNombre().toLowerCase(Locale.ROOT).contains(nombre.toLowerCase(Locale.ROOT));}).collect(Collectors.toList());}
+    public List<Personaje> buscarPersonajePorNombre(String nombre){
+        return personajeRepository.findAll().stream()
+                .filter(p-> {return p.getNombre().toLowerCase(Locale.ROOT)
+                        .contains(nombre.toLowerCase(Locale.ROOT));}).collect(Collectors.toList());}
 
     public List<Personaje> buscarPersonajePorEdad(int edad){ return personajeRepository.findAll().stream().filter(p-> {return p.getEdad() == edad;}).collect(Collectors.toList());}
 
@@ -54,6 +68,17 @@ public class PersonajeService {
             }
         }
         return personajes;
+    }
+
+    public Optional<Personaje> modifPersonaje (Long idPersonaje, Personaje personajeModif){
+        Optional<Personaje> personaje = buscarPersonajePorId(idPersonaje);
+        personaje.get().setEdad(personajeModif.getEdad());
+        personaje.get().setHistoria(personajeModif.getHistoria());
+        personaje.get().setImagen(personajeModif.getImagen());
+//        personaje.get().setPeliculas(personajeModif.getPeliculas());
+        personaje.get().setNombre(personajeModif.getNombre());
+        crearPersonaje(personaje.get());
+        return personaje;
     }
 //    public void agregarPeliculaRelacionada(String nombre, String titulo) {
 //    log.info("Agregando pelicula {} y relacionarla al personaje {}.", nombre, titulo);
