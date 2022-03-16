@@ -49,26 +49,39 @@ public class PersonajeService {
         return personajeRepository.findById(id);}
 
     public List<Personaje> buscarPersonajePorNombre(String nombre){
-        return personajeRepository.findAll().stream()
+        return ifIsEmpty(personajeRepository.findAll().stream()
                 .filter(p-> {return p.getNombre().toLowerCase(Locale.ROOT)
-                        .contains(nombre.toLowerCase(Locale.ROOT));}).collect(Collectors.toList());}
+                    .contains(nombre.toLowerCase(Locale.ROOT));})
+                        .collect(Collectors.toList()));};
 
-    public List<Personaje> buscarPersonajePorEdad(int edad){ return personajeRepository.findAll().stream().filter(p-> {return p.getEdad() == edad;}).collect(Collectors.toList());}
+    public List<Personaje> buscarPersonajePorEdad(int edad){ return ifIsEmpty(personajeRepository.findAll().stream().filter(p-> {return p.getEdad() == edad;}).collect(Collectors.toList()));}
 
-    public List<Personaje> buscarPersonajePorPeso(float peso) { return personajeRepository.findAll().stream().filter(p-> {return p.getPeso() == peso;}).collect(Collectors.toList());}
+    public List<Personaje> buscarPersonajePorPeso(float peso) { return ifIsEmpty(personajeRepository.findAll().stream().filter(p-> {return p.getPeso() == peso;}).collect(Collectors.toList()));}
 
-    public List<Personaje> buscarPorPelicula(Long idPel) {
-        Optional<Pelicula> pelicula = peliculaRepository.findById(idPel);
+    public List<Personaje> buscarPorPelicula(String tituloPelicula) {
+        Pelicula pelicula = peliculaRepository.findByTitulo(tituloPelicula);
         List<Personaje> personajes = new ArrayList<>();
         for (Personaje x : personajeRepository.findAll()) {
             for (Pelicula g : x.getPeliculas()) {
-                if (g.equals(pelicula.get())) {
+                if (g.equals(pelicula)) {
                     personajes.add(x);
                 }
             }
         }
-        return personajes;
+        return ifIsEmpty(personajes);
     }
+//    public List<Personaje> buscarPorPelicula(Long idPel) {
+//        Optional<Pelicula> pelicula = peliculaRepository.findById(idPel);
+//        List<Personaje> personajes = new ArrayList<>();
+//        for (Personaje x : personajeRepository.findAll()) {
+//            for (Pelicula g : x.getPeliculas()) {
+//                if (g.equals(pelicula.get())) {
+//                    personajes.add(x);
+//                }
+//            }
+//        }
+//        return ifIsEmpty(personajes);
+//    }
 
     public Optional<Personaje> modifPersonaje (Long idPersonaje, Personaje personajeModif){
         Optional<Personaje> personaje = buscarPersonajePorId(idPersonaje);
@@ -79,6 +92,11 @@ public class PersonajeService {
         personaje.get().setNombre(personajeModif.getNombre());
         crearPersonaje(personaje.get());
         return personaje;
+    }
+
+    public List<Personaje> ifIsEmpty(List<Personaje> personajeList){
+        if(personajeList.isEmpty()) throw new NotFoundException("ningun personaje agregado o encontrado");
+        return personajeList;
     }
 //    public void agregarPeliculaRelacionada(String nombre, String titulo) {
 //    log.info("Agregando pelicula {} y relacionarla al personaje {}.", nombre, titulo);

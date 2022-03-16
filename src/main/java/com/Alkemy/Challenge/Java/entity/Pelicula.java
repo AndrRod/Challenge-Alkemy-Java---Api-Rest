@@ -28,7 +28,7 @@ public class Pelicula implements Serializable {
     private String imagen;
 
     @Getter @Setter
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     @NotBlank(message = "no debe estar en blanco.")
     private String titulo;
 
